@@ -6,119 +6,51 @@
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
 			<div id="container" class="thumbnails">
-				<div class="item">
-					<div class="thumbnail">
-						<h4>[Book title]</h4>
-	    				<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png">
-	    				<div class="caption">
-	    					<small>[Price of book]</small>
-	    					<p>[Book description]</p>
-	    					<div class="btn-group">
-	    						<a href="#" class="btn btn-primary">Loan</a>
-	    						<!--<a href="#" class="btn">Reserve</a>-->
-	    						<a href="#" class="btn">Buy</a>
-	    					</div>
-	    				</div>
-	    			</div>
-				</div>
-				
-				<div class="item">
-					<div class="thumbnail">
-						<h4>[Book title 2]</h4>
-	    				<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png">
-	    				<div class="caption">
-	    					<small>[Price of book]</small>
-	    					<p>[Book description]</p>
-	    					<div class="btn-group">
-	    						<a href="#" class="btn btn-primary">Loan</a>
-	    						<!--<a href="#" class="btn">Reserve</a>-->
-	    						<a href="#" class="btn btn-success">Buy</a>
-	    					</div>
-	    				</div>
-	    			</div>
-				</div>
-				<div class="item">
-					<div class="thumbnail">
-						<h4>[Book title 3]</h4>
-	    				<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png">
-	    				<div class="caption">
-	    					<small>[Price of book]</small>
-	    					<p>[Book description]</p>
-	    					<div class="btn-group">
-	    						<a href="#" class="btn btn-primary">Loan</a>
-	    						<!--<a href="#" class="btn">Reserve</a>-->
-	    						<a href="#" class="btn btn-success">Buy</a>
-	    					</div>
-	    				</div>
-	    			</div>
-				</div>
-				<div class="item">
-					<div class="thumbnail">
-						<h4>[Book title 4]</h4>
-	    				<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png">
-	    				<div class="caption">
-	    					<small>[Price of book]</small>
-	    					<p>[Book description]</p>
-	    					<div class="btn-group">
-	    						<a href="#" class="btn btn-primary">Loan</a>
-	    						<!--<a href="#" class="btn">Reserve</a>-->
-	    						<a href="#" class="btn btn-success">Buy</a>
-	    					</div>
-	    				</div>
-	    			</div>
-				</div>
-				<div class="item">
-					<div class="thumbnail">
-						<h4>[Book title 5]</h4>
-	    				<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png">
-	    				<div class="caption">
-	    					<small>[Price of book]</small>
-	    					<p>[Book description]</p>
-	    					<div class="btn-group">
-	    						<a href="#" class="btn btn-primary">Loan</a>
-	    						<!--<a href="#" class="btn">Reserve</a>-->
-	    						<a href="#" class="btn btn-success">Buy</a>
-	    					</div>
-	    				</div>
-	    			</div>
-				</div>
-				<div class="item">
-					<div class="thumbnail">
-						<h4>[Book title 6]</h4>
-	    				<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png">
-	    				<div class="caption">
-	    					<small>[Price of book]</small>
-	    					<p>[Book description]</p>
-	    					<div class="btn-group">
-	    						<a href="#" class="btn btn-primary">Loan</a>
-	    						<!--<a href="#" class="btn">Reserve</a>-->
-	    						<a href="#" class="btn btn-success">Buy</a>
-	    					</div>
-	    				</div>
-	    			</div>
-				</div>
-				<div class="item">
-					<div class="thumbnail">
-						<h4>[Book title 7]</h4>
-	    				<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png">
-	    				<div class="caption">
-	    					<small>[Price of book]</small>
-	    					<p>[Book description]</p>
-	    					<div class="btn-group">
-	    						<a href="#" class="btn btn-primary">Loan</a>
-	    						<!--<a href="#" class="btn">Reserve</a>-->
-	    						<a href="#" class="btn btn-success">Buy</a>
-	    					</div>
-	    				</div>
-	    			</div>
-				</div>
+				<?php if(!empty($rows)): ?>
+					<?php foreach($rows as $row) : ?>
+					<div class="item">
+						<div class="thumbnail">
+							<h4><?php echo $row["title"]; ?></h4>
+							<?php if(!empty($row["image_url"])): ?>
+							<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url().'assets/img/books/'.$row["image_url"];?>" />
+							<?php else: ?>
+							<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png" />
+							<?php endif; ?>
+		    				<div class="caption">
+		    					<b><small>RM<?php echo $row["price"]; ?></small></b>
+		    					<p>
+		    						<?php 
+										if(!empty($row["description"])){
+											if(strlen($row["description"])>150){
+											    $text=substr($row["description"],0,150).'... <a href="#">Read more</a>';
+											    echo $text;
+											}
+										}else{
+											echo 'N/A';
+										}
+									?>
+		    					</p>
+		    					<div class="btn-group">
+		    						<a href="#" class="btn btn-primary">Loan</a>
+		    						<!--<a href="#" class="btn">Reserve</a>-->
+		    						<a href="#" class="btn">Buy</a>
+		    					</div>
+		    				</div>
+		    			</div>
+					</div>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<p>No data to display...</p>
+				<?php endif; ?>
 			</div>
+			<?php //echo $this->pagination->create_links(); ?>
 			<!-- #container end -->
 			<nav id="page-nav">
-			  <a href="<?php echo base_url();?>books/2"></a>
+			  <a href="<?php echo base_url();?>books/10"></a>
 			</nav>
 		</div>
 		<script>
+			var i = 10;
 			$(function(){
 				var $container = $('#container');
 				$container.imagesLoaded(function(){
@@ -147,14 +79,15 @@
 			        $newElems.imagesLoaded(function(){
 			          // show elems now they're ready
 			          $newElems.animate({ opacity: 1 });
-			          $container.masonry( 'appended', $newElems, true ); 
+			          $container.masonry( 'appended', $newElems, true );
+			          // change page 10
+			          i = i + 10;
+			          $('#page-nav').html('<a href="/elibrary/books/'+i+'"></a>');
 			        });
 			      });
 				
 			});
 		</script>
-		<!-- btn more -->
-		<!--<a href="#" class="btn span9" style="margin-left: 25%;">Click to load more books...</a>-->
 	</div>
 </div>
 

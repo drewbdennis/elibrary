@@ -8,7 +8,7 @@
 				<li class="nav-header">Main Menu</li>
 				<li class="<?php if($title == 'Manage_users'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>manage_users/">Manage Users</a></li>
 				<li class="<?php if($title == 'Manage_books'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>manage_books/">Manage Books</a></li>
-				<li class="<?php if($title == 'Manage_categories'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>categories/">Manage Categories</a></li>
+				<li class="<?php if($title == 'Categories'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>categories/">Manage Categories</a></li>
 				<li class="<?php if($title == 'Send_sms'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>sms/">Send SMS</a></li>
 			</ul>
 		<?php else: ?>
@@ -21,7 +21,7 @@
 			</ul>
 		<?php endif; ?>
 		<?php if($this->session->userdata('role_id') != 9999) : ?>
-		<div style="height:250px;">
+		<div style="height:450px;">
 			<ul class="nav nav-list">
 				<li class="divider"></li>
 				<li class="nav-header">Categories of books</li>

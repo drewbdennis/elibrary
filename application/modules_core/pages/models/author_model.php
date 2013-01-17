@@ -1,5 +1,5 @@
 <?php
-Class Book_model extends CI_Model{
+Class Author_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}
@@ -7,11 +7,11 @@ Class Book_model extends CI_Model{
 	# get records
 	function Get($id=NULL){
 		$this->db->select('*');
-		$this->db->from('book');
+		$this->db->from('author');
 		# check if we're getting only one row or all records
 		if($id != NULL){
 			# getting only one row
-			$this->db->where('ISBN', $id);
+			$this->db->where('id', $id);
 			$this->db->limit('1');
 			$query = $this->db->get();
 			if($query->num_rows() == 1){
@@ -36,20 +36,20 @@ Class Book_model extends CI_Model{
 	
 	# add records
 	function Add($data){
-		$this->db->insert('book',$data);
+		$this->db->insert('author',$data);
 		return $this->db->insert_id();
 	}
 	
 	# edit records
 	function Update($id,$data){
 		$this->db->where('id',$id);
-		$this->db->update('book',$data);
+		$this->db->update('author',$data);
 	}
 	
 	# delete records
 	function Delete($data){
 		$this->db->where($data);
-		$result = $this->db->delete('book');
+		$result = $this->db->delete('author');
 		return $result;
 	}
 }
