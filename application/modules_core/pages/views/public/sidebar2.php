@@ -9,7 +9,7 @@
 		        <div class="content">
 		        	<ul class="nav nav-list">
 		        		<?php foreach($categories as $cat): ?>
-							<li><a href="<?php echo base_url().'genre/'.str_replace(' ','+', strtolower($cat->name)); ?>"><?php echo ucwords($cat->name); ?></a></li>
+							<li class="<?php if($genre == ucwords($cat->name)){ echo 'active';} ?>"><a href="<?php echo base_url().'genre/'.str_replace(' ','+', strtolower($cat->name)); ?>"><?php echo ucwords($cat->name); ?></a></li>
 						<?php endforeach;?>
 		        	</ul>
 		        </div>

@@ -64,6 +64,8 @@ class Pages extends CI_Controller{
 		}else{
 			if($page == 'books'){
 				$this->books();
+			}else if($page == 'genres'){
+				$this->genres();
 			}else if($page == 'login'){
 				# login/logout
 				$this->login();
@@ -119,11 +121,99 @@ class Pages extends CI_Controller{
 				
 				# array of info to pass to site
 				$data = array(
-					'title'=>ucfirst($page),
+					'title'=>ucwords(str_replace('_',' ',$page)),
 					'sitename'=>'ELibrary',
 					'categories'=> $this->Category_model->Get(),
 					'display_name'=>$display_name,
 					'rows'=>$query->result_array()
+				);
+				
+				// loads the header template
+				$this->template->load($header,null,$data);
+				// finds and load the page
+				$this->load->view($location.$page,$data);
+				// loads the footer template
+				$this->template->load('footer',null,$data);
+			}else if($page == 'genre'){
+				# get user input from form
+				$cat_name = trim(ucwords(str_replace('+', ' ', $this->uri->segment(2))));
+				# sanitize genre
+				$cat_name = strip_tags($cat_name);
+				
+				
+				# configure pagination
+				$config['base_url'] = base_url().'genre'.$this->uri->segment(2);
+				$config['total_rows'] = $this->db->get_where('book',array('cat_name'=>mysql_real_escape_string($cat_name)))->num_rows();
+				$config['uri_segment'] = 3;
+				$config['per_page'] = 10;
+				$config['num_links'] = 20;
+				$config['full_tag_open'] = '<div class="pagination"><ul>';
+				$config['full_tag_close'] = '</ul></div>';
+				$config['first_link']      = 'First';
+				$config['first_tag_open']  = '<li>';
+				$config['first_tag_close'] = '</li>';
+				
+				$config['last_link']      = 'Last';
+				$config['last_tag_open']  = '<li>';
+				$config['last_tag_close'] = '</li>';
+				
+				$config['next_link']      = 'Next';
+				$config['next_tag_open']  = '<li>';
+				$config['next_tag_close'] = '</li>';
+				
+				$config['prev_link']      = 'Previous';
+				$config['prev_tag_open']  = '<li>';
+				$config['prev_tag_close'] = '</li>';
+				
+				$config['cur_tag_open']  = '<li class="active"><a>';
+				$config['cur_tag_close'] = '</a></li>';
+				
+				$config['num_tag_open']  = '<li>';
+				$config['num_tag_close'] = '</li>';
+				
+				$this->pagination->initialize($config);
+				
+				$query = $this->db->get_where('book',array('cat_name'=>mysql_real_escape_string($cat_name)),$config['per_page'], $this->uri->segment(3));
+				
+				# array of info to pass to site
+				$data = array(
+					'title'=>ucwords(str_replace('_',' ',$page)),
+					'sitename'=>'ELibrary',
+					'categories'=> $this->Category_model->Get(),
+					'display_name'=>$display_name,
+					'rows'=>$query->result_array(),
+					'genre'=>htmlspecialchars($cat_name)
+				);
+				
+				// loads the header template
+				$this->template->load($header,null,$data);
+				// finds and load the page
+				$this->load->view($location.$page,$data);
+				// loads the footer template
+				$this->template->load('footer',null,$data);
+			}else if($page == 'search'){
+				# get user input from form
+				//extract($_GET);
+				$title = $_GET['bk_title'];
+				# get user input from form
+				$title = trim(ucwords(str_replace('+', ' ', $title)));
+				# sanitize genre
+				$title = strip_tags($title);
+				
+				#
+				$this->db->select('*');
+				//$this->db->from('book');
+				$this->db->where('title', $title); 
+				$query = $this->db->get('book');
+				
+				# array of info to pass to site
+				$data = array(
+					'title'=>ucwords(str_replace('_',' ',$page)),
+					'sitename'=>'ELibrary',
+					'categories'=> $this->Category_model->Get(),
+					'display_name'=>$display_name,
+					'rows'=>$query->result_array(),
+					'bk_name'=>htmlspecialchars($title)
 				);
 				
 				// loads the header template
@@ -142,7 +232,7 @@ class Pages extends CI_Controller{
 					$config['base_url'] = base_url().'manage_users';
 					# check if seaching
 					if(!empty($usrname)){
-						$config['total_rows'] = $this->db->get_where('user_profile', array('fullname' => $usrname))->num_rows();
+						$config['total_rows'] = $this->db->get_where('user_profile', array('fullname' => mysql_real_escape_string($usrname)))->num_rows();
 					}else{
 						$config['total_rows'] = $this->db->get('user_profile')->num_rows();
 					}
@@ -177,14 +267,14 @@ class Pages extends CI_Controller{
 					
 					# check if seaching
 					if(!empty($usrname)){
-						$query = $this->db->get_where('user_profile', array('fullname' => $usrname),$config['per_page'], $this->uri->segment(2));
+						$query = $this->db->get_where('user_profile', array('fullname' => mysql_real_escape_string($usrname)),$config['per_page'], $this->uri->segment(2));
 					}else{
 						$query = $this->db->get('user_profile', $config['per_page'], $this->uri->segment(2));
 					}
 					
 					# array of info to pass to site
 					$data = array(
-						'title'=>ucfirst($page),
+						'title'=>ucwords(str_replace('_',' ',$page)),
 						'sitename'=>'ELibrary',
 						'categories'=> $this->Category_model->Get(),
 						'display_name'=>$display_name,
@@ -261,7 +351,7 @@ class Pages extends CI_Controller{
 					
 					# array of info to pass to site
 					$data = array(
-						'title'=>ucfirst($page),
+						'title'=>ucwords(str_replace('_',' ',$page)),
 						'sitename'=>'ELibrary',
 						'categories'=> $this->Category_model->Get(),
 						'display_name'=>$display_name,
@@ -333,7 +423,7 @@ class Pages extends CI_Controller{
 					
 					# array of info to pass to site
 					$data = array(
-						'title'=>ucfirst($page),
+						'title'=>ucwords(str_replace('_',' ',$page)),
 						'sitename'=>'ELibrary',
 						'categories'=> $this->Category_model->Get(),
 						'display_name'=>$display_name,
@@ -356,7 +446,7 @@ class Pages extends CI_Controller{
 			}else{
 				# array of info to pass to site
 				$data = array(
-					'title'=>ucfirst($page),
+					'title'=>ucwords(str_replace('_',' ',$page)),
 					'sitename'=>'ELibrary',
 					'categories'=> $this->Category_model->Get(),
 					'display_name'=>$display_name,
@@ -430,7 +520,7 @@ class Pages extends CI_Controller{
 		    }else{
 		    	$data = $data.'<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="'.base_url().'assets/img/pics.png" />';
 		    }				
-		    $data = $data.'<div class="caption"><b><small>RM'.$row["price"].'</small></b><p>';
+		    $data = $data.'<div class="caption"><!--<b><small>RM<?php echo $row["price"]; ?></small></b>--><p>';
 		    if(!empty($row["description"])){
 				if(strlen($row["description"])>150){
 				    $text=substr($row["description"],0,150).'... <a href="#">Read more</a>';
@@ -444,7 +534,83 @@ class Pages extends CI_Controller{
 		    	$data = $data . '<div class="btn-group">
 		    						<a href="#" class="btn btn-primary">Loan</a>
 		    						<!--<a href="#" class="btn">Reserve</a>-->
-		    						<a href="#" class="btn">Buy</a>
+		    					</div>';
+		    }					
+		    					
+		    					
+		    $data = $data .	'</div>
+		    			</div>
+					</div>
+			';
+		}
+		
+		echo $data;
+	}
+
+	# genres
+	function genres(){
+		# get user input from form
+		$cat_name = trim(ucwords(str_replace('+', ' ', $this->uri->segment(2))));
+		# sanitize genre
+		$cat_name = strip_tags($cat_name);
+		
+		# configure pagination
+		$config['base_url'] = base_url().'genre'.$this->uri->segment(2);
+		$config['total_rows'] = $this->db->get_where('book',array('cat_name'=>mysql_real_escape_string($cat_name)))->num_rows();
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['num_links'] = 20;
+		$config['full_tag_open'] = '<div class="pagination"><ul>';
+		$config['full_tag_close'] = '</ul></div>';
+		$config['first_link']      = 'First';
+		$config['first_tag_open']  = '<li>';
+		$config['first_tag_close'] = '</li>';
+		
+		$config['last_link']      = 'Last';
+		$config['last_tag_open']  = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$config['next_link']      = 'Next';
+		$config['next_tag_open']  = '<li>';
+		$config['next_tag_close'] = '</li>';
+		
+		$config['prev_link']      = 'Previous';
+		$config['prev_tag_open']  = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		
+		$config['cur_tag_open']  = '<li class="active"><a>';
+		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['num_tag_open']  = '<li>';
+		$config['num_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+		
+		$query = $this->db->get_where('book',array('cat_name'=>mysql_real_escape_string($cat_name)),$config['per_page'], $this->uri->segment(3));
+		$rows = $query->result_array();
+		
+		$data = null;
+		foreach($rows as $row){
+			$data = $data.'<div class="item"><div class="thumbnail"><h4>'.$row["title"].'</h4>';
+		    if(!empty($row["image_url"])){
+		    	$data = $data.'<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="'.base_url().'assets/img/books/'.$row["image_url"].'" />';
+		    }else{
+		    	$data = $data.'<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="'.base_url().'assets/img/pics.png" />';
+		    }				
+		    $data = $data.'<div class="caption"><!--<b><small>RM<?php echo $row["price"]; ?></small></b>--><p>';
+		    if(!empty($row["description"])){
+				if(strlen($row["description"])>150){
+				    $text=substr($row["description"],0,150).'... <a href="#">Read more</a>';
+				    $data = $data . $text;
+				}
+			}else{
+				$data = $data . 'N/A';
+			}
+		    $data = $data .'</p>';
+		    if($this->session->userdata('logged_in')){
+		    	$data = $data . '<div class="btn-group">
+		    						<a href="#" class="btn btn-primary">Loan</a>
+		    						<!--<a href="#" class="btn">Reserve</a>-->
 		    					</div>';
 		    }					
 		    					

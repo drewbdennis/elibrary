@@ -2,18 +2,13 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<!-- sidebar -->
-		<?php include_once('sidebar.php'); ?>
-		<!-- show this section when user isn't logged in -->
-		<!-- notice -->
-		<div class="span9 hero-unit"  style="margin-left: 25%; text-align: center;">
-			<h2>Register to unleash the power of knowledge!</h2>
-			<p>
-				An account allows you to loan, reserve, buy a book, and more. These services are only available to current student, and alumni of 
-				[school name here].
-			</p>
-		</div>
+		<?php include_once('sidebar2.php'); ?>
+		
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
+			<div>
+				<h3 style="display:inline-block;"><?php echo $title; ?></h3> - <small><?php echo $genre; ?></small>
+			</div>
 			<div id="container" class="thumbnails">
 				<?php if(!empty($rows)): ?>
 					<?php foreach($rows as $row) : ?>
@@ -47,10 +42,9 @@
 					<p>No data to display...</p>
 				<?php endif; ?>
 			</div>
-			<?php //echo $this->pagination->create_links(); ?>
 			<!-- #container end -->
 			<nav id="page-nav">
-			  <a href="<?php echo base_url();?>books/10"></a>
+			  <a href="<?php echo base_url();?>genres/10"></a>
 			</nav>
 		</div>
 		<script>
@@ -99,5 +93,3 @@
 </div>
 <div class="clearfix"></div>
 <!-- content end -->
-
-

@@ -1,6 +1,9 @@
 html, body{
 	height: 100%;
 }
+.no-underline{
+	text-decoration: none !important;
+}
 header{
 	padding-bottom:60px;
 }

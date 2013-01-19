@@ -28,9 +28,18 @@
 				      <li class="<?php if($title == 'About'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>about/">About</a></li>
 				    </ul>
 				    <!-- search form -->
-				    <form class="navbar-search pull-left" action="">
-                      <input type="text" class="search-query span2" placeholder="Search by title">
-                    </form>
+				    <?php
+				    	$attributes = array(
+				    	'class' => 'navbar-search pull-left',
+				    	'style' => 'display:inline-block;',
+				    	'id' => 'mySearch',
+				    	'method'=>'get'
+						);
+				    
+				    	echo form_open('search/',$attributes); ?>
+						<input name="bk_title" type="text" class="search-query span2" placeholder="search by title">
+					<?php echo form_close(); ?>
+                    <!-- end search -->
                     <?php endif; ?>
                     <!-- drop down -->
                     <ul class="nav pull-right">

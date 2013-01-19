@@ -17,7 +17,7 @@
 							<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png" />
 							<?php endif; ?>
 		    				<div class="caption">
-		    					<b><small>RM<?php echo $row["price"]; ?></small></b>
+		    					<!--<b><small>RM<?php echo $row["price"]; ?></small></b>-->
 		    					<p>
 		    						<?php 
 										if(!empty($row["description"])){
@@ -33,7 +33,6 @@
 		    					<div class="btn-group">
 		    						<a href="#" class="btn btn-primary">Loan</a>
 		    						<!--<a href="#" class="btn">Reserve</a>-->
-		    						<a href="#" class="btn">Buy</a>
 		    					</div>
 		    				</div>
 		    			</div>

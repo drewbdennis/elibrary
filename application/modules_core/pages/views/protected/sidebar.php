@@ -6,18 +6,19 @@
 			<!-- admin options -->
 			<ul class="nav nav-list">
 				<li class="nav-header">Main Menu</li>
+				<li class="<?php if($title == 'Book_return'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>book_return/">Book Return</a></li>
 				<li class="<?php if($title == 'Manage_users'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>manage_users/">Manage Users</a></li>
 				<li class="<?php if($title == 'Manage_books'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>manage_books/">Manage Books</a></li>
 				<li class="<?php if($title == 'Categories'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>categories/">Manage Categories</a></li>
-				<li class="<?php if($title == 'Send_sms'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>sms/">Send SMS</a></li>
+				<li class="<?php if($title == 'Send_sms'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>send_sms/">Send Sms</a></li>
 			</ul>
 		<?php else: ?>
 			<!-- student options -->
 			<ul class="nav nav-list">
 				<li class="nav-header">Main Menu</li>
-				<li class="<?php if($title == 'Outstanding_fines'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>about/">Outstanding Fines</a></li>
-				<li class="<?php if($title == 'My_reservation'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>about/">My Reservation</a></li>
-				<li class="<?php if($title == 'My_history'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>about/">My Library History</a></li>
+				<li class="<?php if($title == 'Outstanding_fines'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>fines/">Outstanding Fines</a></li>
+				<li class="<?php if($title == 'My_reservation'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>my_reservation/">My Reservation</a></li>
+				<li class="<?php if($title == 'My_history'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>my_history/">My Library History</a></li>
 			</ul>
 		<?php endif; ?>
 		<?php if($this->session->userdata('role_id') != 9999) : ?>
@@ -30,7 +31,7 @@
 		        <div class="content">
 		        	<ul class="nav nav-list">
 		        		<?php foreach($categories as $cat): ?>
-							<li><a href="#"><?php echo ucwords($cat->name); ?></a></li>
+							<li><a href="<?php echo base_url().'genre/'.str_replace(' ','+', strtolower($cat->name)); ?>"><?php echo ucwords($cat->name); ?></a></li>
 						<?php endforeach;?>
 		        	</ul>
 		        </div>
