@@ -7,21 +7,19 @@
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
 			<h3><?php echo $title; ?></h3>
-			<?php if(empty($rows)): ?>
+			<?php if(!empty($rows)): ?>
 				<ul class="unstyled">
-					<li style="border-bottom:1px solid #999;padding-top:10px;padding-bottom:10px;">
-						<div class="pull-right">
-							<a href="#">Cancel</a>
-						</div>
-						[Book Title] [ISBN]
-					</li>
-					<li style="border-bottom:1px solid #999;padding-top:10px;padding-bottom:10px;">
-						<div class="pull-right">
-							<a href="#">Cancel</a>
-						</div>
-						[Book Title] [ISBN]
-					</li>
+					<?php foreach($rows as $row) : ?>
+						<?php $book = $bookModel->Get($row["ISBN"]); ?>
+						<li style="border-bottom:1px solid #999;padding-top:10px;padding-bottom:10px;">
+							<div class="pull-right">
+								<a href="#">Cancel</a>
+							</div>
+							<?php echo $book->title.' - '.$book->ISBN; ?>
+						</li>
+					<?php endforeach; ?>
 				</ul>
+				<?php echo $this->pagination->create_links(); ?>
 			<?php else: ?>
 				<p>No data to display...</p>
 			<?php endif; ?>

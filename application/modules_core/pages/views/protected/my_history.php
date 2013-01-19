@@ -12,21 +12,19 @@
 					<a class="no-underline" href="#" title="Delete All">Delete All</a>
 				</div>
 			</div>
-			<?php if(empty($rows)): ?>
+			<?php if(!empty($rows)): ?>
 				<ul class="unstyled">
-					<li style="border-bottom:1px solid #999;padding-top:10px;padding-bottom:10px;">
-						<div class="pull-right">
-							<a href="#" title="Delete"><i class="icon-remove-sign"></i></a>
-						</div>
-						[Book Title] of [ISBN] was borrowed on [Date Out]
-					</li>
-					<li style="border-bottom:1px solid #999;padding-top:10px;padding-bottom:10px;">
-						<div class="pull-right">
-							<a href="#" title="Delete"><i class="icon-remove-sign"></i></a>
-						</div>
-						[Book Title] of [ISBN] was borrowed on [Date Out]
-					</li>
+					<?php foreach($rows as $row) : ?>
+						<?php $book = $bookModel->Get($row["ISBN"]); ?>
+						<li style="border-bottom:1px solid #999;padding-top:10px;padding-bottom:10px;">
+							<div class="pull-right">
+								<a href="#" title="Delete"><i class="icon-remove-sign"></i></a>
+							</div>
+							<?php echo $book->title.' of '.$book->ISBN.' was borrowed on '.$row['date_out'] ; ?>
+						</li>
+					<?php endforeach; ?>
 				</ul>
+				<?php echo $this->pagination->create_links(); ?>
 			<?php else: ?>
 				<p>No data to display...</p>
 			<?php endif; ?>
