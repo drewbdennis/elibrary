@@ -38,12 +38,28 @@ Class Reservation_model extends CI_Model{
 	function GetBook($id=NULL){
 		$this->db->select('*');
 		$this->db->from('reservation');
-		$this->db->where('book_id', $id);
+		$this->db->where('ISBN', $id);
 		$this->db->limit('1');
 		$query = $this->db->get();
 		if($query->num_rows() == 1){
 			# one row, match!
 			return $query->row();
+		}else{
+			# none
+			return FALSE;
+		}
+	}
+	
+	# check record base on book_id
+	function Check($id=NULL){
+		$this->db->select('*');
+		$this->db->from('reservation');
+		$this->db->where('ISBN', $id);
+		$this->db->limit('1');
+		$query = $this->db->get();
+		if($query->num_rows() == 1){
+			# one row, match!
+			return TRUE;
 		}else{
 			# none
 			return FALSE;

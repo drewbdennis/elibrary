@@ -8,6 +8,9 @@
 			<div id="container" class="thumbnails">
 				<?php if(!empty($rows)): ?>
 					<?php foreach($rows as $row) : ?>
+						<?php $cat = $categoryModel->GetCategory($row["cat_name"]); ?>
+        				<?php $his = $historyModel->GetBook($row["ISBN"]); ?>
+        				<?php $res = $reservationModel->Check($row["ISBN"]); ?>
 					<div class="item">
 						<div class="thumbnail">
 							<h4><?php echo $row["title"]; ?></h4>
@@ -30,6 +33,32 @@
 										}
 									?>
 		    					</p>
+		    					<div class="btn-group">
+		    						<?php if(empty($his)) : ?>
+		    							<?php if($res == FALSE) : ?>
+		    								<a href="<?php echo base_url() . 'loan/'.$row["ISBN"]; ?>" class="btn btn-primary">Loan</a>
+		    								<a href="#" class="btn disabled">Reserve</a>
+		    							<?php else: ?>
+		    								<a href="#" class="btn btn-primary disabled">Loan</a>
+		    								<a href="#" class="btn disabled">Reserve</a>
+		    							<?php endif; ?>
+		    						<?php else: ?>
+		    							<?php if($his->returned == 'Y') : ?>
+		    								<a href="<?php echo base_url() . 'loan/'.$row["ISBN"]; ?>" class="btn btn-primary">Loan</a>
+		    							<?php else: ?>
+		    								<a href="#" class="btn btn-primary disabled">Loan</a>
+		    							<?php endif; ?>
+		    							<?php if($res == false): ?>
+		    								<?php if($his->returned == 'N') : ?>
+		    									<a href="<?php echo base_url() . 'reserve/'.$row["ISBN"]; ?>" class="btn">Reserve</a>
+		    								<?php else: ?>
+		    									<a href="#" class="btn disabled">Reserve</a>
+		    								<?php endif; ?>
+		    							<?php else: ?>
+		    								<a href="#" class="btn disabled">Reserve</a>
+		    							<?php endif; ?>
+		    						<?php endif; ?>
+		    					</div>
 		    				</div>
 		    			</div>
 					</div>

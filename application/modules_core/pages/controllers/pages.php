@@ -81,6 +81,111 @@ class Pages extends CI_Controller{
 			}else if($page == 'add_user'){
 				# add new user
 				$this->add_user();
+			}else if($page == 'loan'){
+				# loan book
+				#check if user is logged in
+				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
+					# query the db for user info base on id
+					$user = $this->User_model->Get($this->session->userdata('user_id'));
+					
+					# get system id base on user id
+					$system = $this->System_model->Get($this->session->userdata('user_id'));
+					#==============================================================================================>ends	
+					
+					# get count of books user have
+					$this->db->select('*');
+					$this->db->from('history');
+					$this->db->where('system_id', $system->id);
+					$this->db->where('returned', 'N');
+					$count = $this->db->count_all_results();
+					
+					# check the limit of books to loan
+					if($count < 3){
+						# get book id
+						$pid = $this->uri->segment(2);
+						
+						# extract user input
+						extract($_POST);
+						
+						# create data array
+						$data = array(
+							'ISBN'=>mysql_real_escape_string($pid),
+							'system_id'=>mysql_real_escape_string($system->id),
+							'date_out'=>date('Y-m-d'), // current date
+							'date_due'=>date('Y-m-d',strtotime("+1 week")), // date_out + 1week
+							'returned'=>mysql_real_escape_string('N')
+						);
+						
+						# save the changes to db
+						$hid = $this->History_model->Add($data);
+						
+						# check if booking was successful
+						if(!empty($hid)){
+							#set notification to user redirect
+							$this->session->set_flashdata("noti_app",TRUE);
+						}else{
+							#set notification to user redirect
+							$this->session->set_flashdata("book_error",TRUE);
+						}
+					}else{
+						#set notification to user redirect
+						$this->session->set_flashdata("book_max",TRUE);
+					}
+					
+					#redirect to homepage
+					redirect('home');
+				}else{
+					#redirect to login page
+					redirect('home');
+				}
+			}else if($page == 'reserve'){
+				# reserve book
+				#check if user is logged in
+				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
+					# query the db for user info base on id
+					$user = $this->User_model->Get($this->session->userdata('user_id'));
+					
+					# get system id base on user id
+					$system = $this->System_model->Get($this->session->userdata('user_id'));
+					#==============================================================================================>ends	
+					
+					# get count of fyps user have
+					$this->db->select('*');
+					$this->db->from('reservation');
+					$this->db->where('system_id', $system->id);
+					$count = $this->db->count_all_results();
+					
+					# checks the number of book user can loan
+					if($count < 3){
+						# get book ISBN
+						$pid = $this->uri->segment(2);
+						
+						# extract user input
+						extract($_POST);
+						
+						# create data array
+						$data = array(
+							'ISBN'=>mysql_real_escape_string($pid),
+							'system_id'=>mysql_real_escape_string($system->id),
+							'date_log'=>date('Y-m-d') // current date
+						);
+						
+						# save the changes to db
+						$this->Reservation_model->Add($data);
+						
+						#set notification to user redirect
+						$this->session->set_flashdata("reserved",TRUE);
+					}else{
+						#set notification to user redirect
+						$this->session->set_flashdata("reserve_max",TRUE);
+					}
+					
+					#redirect to homepage
+					redirect('home');
+				}else{
+					#redirect to login page
+					redirect('home');
+				}
 			}else if($page == 'home'){
 				# get user input from form
 				extract($_POST);
@@ -125,6 +230,11 @@ class Pages extends CI_Controller{
 					'sitename'=>'ELibrary',
 					'categories'=> $this->Category_model->Get(),
 					'display_name'=>$display_name,
+					'categoryModel'=>$this->Category_model,
+					'historyModel'=>$this->History_model,
+					'reservationModel'=>$this->Reservation_model,
+					'authorModel'=>$this->Author_model,
+					'publisherModel'=>$this->Publisher_model,
 					'rows'=>$query->result_array()
 				);
 				
@@ -182,6 +292,11 @@ class Pages extends CI_Controller{
 					'categories'=> $this->Category_model->Get(),
 					'display_name'=>$display_name,
 					'rows'=>$query->result_array(),
+					'categoryModel'=>$this->Category_model,
+					'historyModel'=>$this->History_model,
+					'reservationModel'=>$this->Reservation_model,
+					'authorModel'=>$this->Author_model,
+					'publisherModel'=>$this->Publisher_model,
 					'genre'=>htmlspecialchars($cat_name)
 				);
 				
@@ -213,6 +328,11 @@ class Pages extends CI_Controller{
 					'categories'=> $this->Category_model->Get(),
 					'display_name'=>$display_name,
 					'rows'=>$query->result_array(),
+					'categoryModel'=>$this->Category_model,
+					'historyModel'=>$this->History_model,
+					'reservationModel'=>$this->Reservation_model,
+					'authorModel'=>$this->Author_model,
+					'publisherModel'=>$this->Publisher_model,
 					'bk_name'=>htmlspecialchars($title)
 				);
 				

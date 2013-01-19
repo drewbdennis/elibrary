@@ -34,6 +34,22 @@ Class Category_model extends CI_Model{
 		}
 	}
 	
+	# get record base on cat_name
+	function GetCategory($cat_name=NULL){
+		$this->db->select('*');
+		$this->db->from('category');
+		$this->db->where('name', $cat_name);
+		$this->db->limit('1');
+		$query = $this->db->get();
+		if($query->num_rows() == 1){
+			# one row, match!
+			return $query->row();
+		}else{
+			# none
+			return FALSE;
+		}
+	}
+	
 	# add records
 	function Add($data){
 		$this->db->insert('category',$data);

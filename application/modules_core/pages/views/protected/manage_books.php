@@ -33,34 +33,38 @@
 			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 			    <h3 id="myModalLabel">Add New Book</h3>
 			  </div>
-			  <?php echo form_open('add_user/','style="margin:0;"'); ?>
+			  <?php echo form_open('add_books/','style="margin:0;"'); ?>
 				  <div class="modal-body">
-				    <label>First Name</label>
+				  	load image here...
+				  	
+				  	<label>ISBN</label>
 					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
 					
-					<label>Last Name</label>
+				    <label>Title of Book</label>
+					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
+					
+					<label>Name of Author</label>
 					<?php echo form_input(array('id' => 'lname', 'name' => 'lname', 'class' => 'input input-xlarge'),set_value('lname')); ?>
 					
-					<label>Email</label>
+					<label>Name of Publisher</label>
 					<?php echo form_input(array('id' => 'usr_email', 'name' => 'usr_email', 'class' => 'input input-xlarge'),set_value('usr_email')); ?>
 					
-					<label>Username</label>
+					<label>Year Published</label>
 					<?php echo form_input(array('id' => 'username', 'name' => 'username', 'class' => 'input input-xlarge'),set_value('username')); ?>
 					
-					<label>Password</label>
-					<?php echo form_password(array('id' => 'new_password1', 'name' => 'new_password1', 'class' => 'input input-xlarge'),set_value('new_password1')); ?>
+					<label>Quantity</label>
+					<?php echo form_input(array('id' => 'new_password1', 'name' => 'new_password1', 'class' => 'input input-xlarge'),set_value('new_password1')); ?>
 					
-					<label>Repeat Password</label>
-					<?php echo form_password(array('id' => 'new_password2', 'name' => 'new_password2', 'class' => 'input input-xlarge')); ?>
+					<label>Price</label>
+					<?php echo form_input(array('id' => 'new_password2', 'name' => 'new_password2', 'class' => 'input input-xlarge')); ?>
 					
-					<label>Role</label>
-					<select id="usr_role" name="usr_role" style="width:280px;">
-						<option value="" selected="selected">Please select</option>
-						<option value="1">Member</option>
-						<option value="9999">Superuser</option>
-					</select>
-					
-				  </div>
+					<label>Genre</label>
+					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
+				
+					<label>Description</label>
+					<?php echo form_textarea(array('id' => 'lname', 'name' => 'lname', 'cols'=>'30', 'rows'=>'5','class'=>'span12'),set_value('lname')); ?>
+				
+				</div>
 				  <div class="modal-footer">
 				    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
 				    <?php echo form_submit(array('name' => 'submit','class' => 'btn btn-primary'), 'Add New Book'); ?>

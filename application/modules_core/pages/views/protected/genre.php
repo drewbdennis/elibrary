@@ -2,30 +2,13 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<!-- sidebar -->
-		<?php include_once('sidebar.php'); ?>
+		<?php include_once('sidebar2.php'); ?>
+		
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
-			<?php
-            	if($this->session->flashdata('noti_app')){
-					#display notification
-					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Loaning book was successful!</div>';
-				}elseif($this->session->flashdata('noti_apps')){
-					#display notification
-					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Cancelling reserved book was successful!</div>';
-				}elseif($this->session->flashdata('book_error')){
-					#display notification
-					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a>Loaning was unsuccessful!</div>';
-				}elseif($this->session->flashdata('reserved')){
-					#display notification
-					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Reservation was successful!</div>';
-				}elseif($this->session->flashdata('book_max')){
-					#display notification
-					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>You are only allow to loan 3 books at a time. </div>';
-				}elseif($this->session->flashdata('reserve_max')){
-					#display notification
-					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>You are only allow to reserve 2 books at a time. </div>';
-				}
-			?>
+			<div>
+				<h3 style="display:inline-block;"><?php echo $title; ?></h3> - <small><?php echo $genre; ?></small>
+			</div>
 			<div id="container" class="thumbnails">
 				<?php if(!empty($rows)): ?>
 					<?php foreach($rows as $row) : ?>
@@ -88,10 +71,9 @@
 					<p>No data to display...</p>
 				<?php endif; ?>
 			</div>
-			<?php //echo $this->pagination->create_links(); ?>
 			<!-- #container end -->
 			<nav id="page-nav">
-			  <a href="<?php echo base_url();?>books/10"></a>
+			  <a href="<?php echo base_url();?>genres/10"></a>
 			</nav>
 		</div>
 		<script>
@@ -140,5 +122,3 @@
 </div>
 <div class="clearfix"></div>
 <!-- content end -->
-
-

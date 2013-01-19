@@ -1,6 +1,7 @@
 <!-- sidebar -->
 <div class="span3" style="position: fixed;">
 	<div class="well sidebar-nav">
+		<?php if($this->session->userdata('role_id') != 9999) : ?>
 		<div style="height:550px;">
 			<ul class="nav nav-list">
 				<li class="nav-header">Categories of books</li>
@@ -15,5 +16,6 @@
 		        </div>
 		    </div>
 		</div>
+		<?php endif; ?>
 	</div>
 </div>

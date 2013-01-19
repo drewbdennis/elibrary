@@ -38,7 +38,7 @@ Class History_model extends CI_Model{
 	function GetBook($id=NULL){
 		$this->db->select('*');
 		$this->db->from('history');
-		$this->db->where('book_id', $id);
+		$this->db->where('ISBN', $id);
 		$this->db->limit('1');
 		$query = $this->db->get();
 		if($query->num_rows() == 1){
