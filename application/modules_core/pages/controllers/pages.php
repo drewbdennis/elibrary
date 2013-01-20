@@ -219,6 +219,54 @@ class Pages extends CI_Controller{
 					#redirect to login page
 					redirect('home');
 				}
+			}else if($page == 'request'){
+				# request a book be added to the library collection
+				#setting validation rules
+				$this->form_validation->set_rules('bk_name','Required','required|trim|max_length[50]|xss_clean');
+				$this->form_validation->set_rules('bk_author','Required','required|trim|max_length[50]|xss_clean');
+				$this->form_validation->set_error_delimiters('<span class="alert alert-error">','</span>');
+				
+				if($this->form_validation->run() == FALSE){
+					#redirect
+					redirect('home');
+				}else{
+					# extracts user input
+					extract($_POST);
+					
+					
+					$book_request = $this->Request_model->Get(mysql_real_escape_string($bk_name));
+					# checkpoint
+					if(!empty($book_request)){
+						$count = $book_request->requested + 1;
+						
+						# create an array of user inputs
+						$data = array(
+							'requested'=>mysql_real_escape_string($count)
+						);
+						# update data
+						$this->Request_model->Update(mysql_real_escape_string($bk_name),$data);
+						# set user notification
+						$this->session->set_flashdata("noti_request_success",TRUE);
+					}else{
+						# create an array of user inputs
+						$data = array(
+							'title'=>mysql_real_escape_string($bk_name),
+							'author'=>mysql_real_escape_string($bk_author)
+						);
+						# insert in database
+						$request_id = $this->Request_model->Add($data);
+						if(!empty($request_id)){
+							# set user notification
+							$this->session->set_flashdata("noti_request_success",TRUE);
+						}else{
+							# set user notification
+							$this->session->set_flashdata("noti_request_error",TRUE);
+						}
+					}
+					#redirect
+					redirect('home');
+				}
+				
 			}else if($page == 'loan'){
 				# loan book
 				#check if user is logged in

@@ -14,6 +14,15 @@
 		</div>
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
+			<?php
+				if($this->session->flashdata('noti_request_success')){
+					#display notification
+					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Your request have been received. </div>';
+				}elseif($this->session->flashdata('noti_request_error')){
+					#display notification
+					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>Your request was not received due to system error. </div>';
+				}
+			?>
 			<div id="container" class="thumbnails">
 				<?php if(!empty($rows)): ?>
 					<?php foreach($rows as $row) : ?>

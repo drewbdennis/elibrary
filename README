@@ -1,5 +1,5 @@
 Name: ELibrary
-Version: 0.0.01a
+Version: 0.0.1
 
 Description:
 ELibrary is a web base system, which provides the users access to books, journals, articles, and encyclopedias plus helpful citation tools; it keeps track of the issues and submissions of books, process of maintaining data about the library resources as well as transactions with respect to the issue and return of the books. The reader can search for books, borrow items if they are present in the library and all the details of the user are stored in the database. The user can also request for books, check the due date of the book borrowed, his loan history as well as outstanding fines. 

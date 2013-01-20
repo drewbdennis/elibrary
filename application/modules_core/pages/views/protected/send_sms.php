@@ -48,7 +48,7 @@
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript" src="<?php echo base_url() . 'assets/js/msg_counter.js'; ?>"></script>
 <div class="push"></div>
 </div>
 <div class="clearfix"></div>

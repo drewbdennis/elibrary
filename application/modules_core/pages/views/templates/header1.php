@@ -12,6 +12,8 @@
 	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.masonry.min.js'; ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.infinitescroll.min.js'; ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.nanoscroller.min.js'; ?>"></script>
+	<!-- functions -->
+	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/functions.js'; ?>"></script>
   </head>
   <body>
   	<div class="wrapper">
@@ -30,14 +32,17 @@
 				    <!-- search form -->
 				    <?php
 				    	$attributes = array(
-				    	'class' => 'navbar-search pull-left',
+				    	'class' => 'navbar-search pull-left form-search',
 				    	'style' => 'display:inline-block;',
 				    	'id' => 'mySearch',
 				    	'method'=>'get'
 						);
 				    
 				    	echo form_open('search/',$attributes); ?>
-						<input name="bk_title" type="text" class="search-query span2" placeholder="search by title">
+				    	<div class="input-append">
+							<input name="bk_title" type="text" class="search-query span2" placeholder="search by title">
+							<button type="submit" class="btn">Search</button>
+						</div>
 					<?php echo form_close(); ?>
                     <!-- end search -->
                     <?php endif; ?>
