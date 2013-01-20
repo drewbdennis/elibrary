@@ -3,7 +3,7 @@
 -- Server version:               5.5.27 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-01-18 04:29:26
+-- Date/time:                    2013-01-21 04:20:35
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `author` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table elibrary.author: ~1 rows (approximately)
+-- Dumping data for table elibrary.author: ~2 rows (approximately)
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
 INSERT INTO `author` (`id`, `au_lname`, `au_fname`, `phone`, `address`, `city`, `state`, `country`, `postalcode`) VALUES
 	(1, 'Chevalier', 'Tracy', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   `year` year(4) NOT NULL,
   `description` mediumtext,
   `quantity` int(10) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
   `image_url` varchar(50) NOT NULL,
   `cat_name` varchar(50) NOT NULL,
   PRIMARY KEY (`ISBN`),
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   CONSTRAINT `FK__publisher` FOREIGN KEY (`pub_id`) REFERENCES `publisher` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table elibrary.book: ~2 rows (approximately)
+-- Dumping data for table elibrary.book: ~4 rows (approximately)
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
 INSERT INTO `book` (`ISBN`, `title`, `author_id`, `pub_id`, `year`, `description`, `quantity`, `price`, `image_url`, `cat_name`) VALUES
 	(111111111, 'The Last Runway', 1, 1, '2013', 'In New York Times bestselling author Tracy Chevalier\'s newest historical saga, she introduces Honor Bright, a modest English Quaker who moves to Ohio in 1850, only to find herself alienated and alone in a strange land. Sick from the moment she leaves England, and fleeing personal disappointment, she is forced by family tragedy to rely on strangers in a harsh, unfamiliar landscape.\r\n\r\nNineteenth-century America is practical, precarious, and unsentimental, and scarred by the continuing injustice of slavery. In her new home Honor discovers that principles count for little, even within a religious community meant to be committed to human equality.\r\n\r\nHowever, drawn into the clandestine activities of the Underground Railroad, a network helping runaway slaves escape to freedom, Honor befriends two surprising women who embody the remarkable power of defiance. Eventually she must decide if she too can act on what she believes in, whatever the personal costs.\r\n\r\nA powerful journey brimming with color and drama,The Last Runawayis Tracy Chevalier\'s vivid engagement with an iconic part of American history.', 1, 20.99, 'the_last_runway.png', 'Adventure'),
@@ -66,6 +66,23 @@ INSERT INTO `book` (`ISBN`, `title`, `author_id`, `pub_id`, `year`, `description
 	(111111119, 'Ender\'s Game', 2, 1, '2011', 'The human race faces annihilation. An alien menace is hovering on the horizon, ready to strike. And if humanity is to be defended, the government must create the greatest military commander in history.The brilliant young Ender Wiggin is their last hope. But first he must survive the rigours of a brutal military training program - to prove that he can be the leader of all leaders.A saviour for mankind must be produced, through whatever means possible. But will they create a hero or a monster?This is the multiple award-winning classic ENDER\'S GAME - a groundbreaking tale of war, strategy and survival.', 2, 13.00, 'enders_game.jpeg', 'Fiction'),
 	(222222222, 'Girl With a Pearl Earring', 1, 2, '2010', 'An international bestseller with over two million copies sold, this is a story of an artist\'s desire for beauty and the ultimate corruption of innocence.', 1, 25.99, 'girl_with_a_pearl_earring.jpeg', 'History');
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
+
+
+-- Dumping structure for table elibrary.book_request
+CREATE TABLE IF NOT EXISTS `book_request` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL,
+  `author` varchar(50) NOT NULL,
+  `requested` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table elibrary.book_request: ~0 rows (approximately)
+/*!40000 ALTER TABLE `book_request` DISABLE KEYS */;
+INSERT INTO `book_request` (`id`, `title`, `author`, `requested`) VALUES
+	(1, 'Cats And Dogs', 'Paul', 5);
+/*!40000 ALTER TABLE `book_request` ENABLE KEYS */;
 
 
 -- Dumping structure for table elibrary.category
@@ -77,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Dumping data for table elibrary.category: ~10 rows (approximately)
+-- Dumping data for table elibrary.category: ~11 rows (approximately)
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`id`, `name`, `description`) VALUES
 	(1, 'Adventure', NULL),
@@ -101,15 +118,16 @@ CREATE TABLE IF NOT EXISTS `history` (
   `system_id` int(11) NOT NULL,
   `date_out` date NOT NULL,
   `date_due` date NOT NULL,
-  `returned` enum('Y','N') NOT NULL DEFAULT 'Y',
+  `returned` enum('Y','N') NOT NULL DEFAULT 'N',
+  `display_history` enum('Y','N') NOT NULL DEFAULT 'Y',
   PRIMARY KEY (`id`),
   KEY `FK_history_book` (`ISBN`),
   KEY `FK_history_system` (`system_id`),
-  CONSTRAINT `FK_history_system` FOREIGN KEY (`system_id`) REFERENCES `system` (`id`),
-  CONSTRAINT `FK_history_book` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_history_book` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`),
+  CONSTRAINT `FK_history_system` FOREIGN KEY (`system_id`) REFERENCES `system` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table elibrary.history: ~0 rows (approximately)
+-- Dumping data for table elibrary.history: ~3 rows (approximately)
 /*!40000 ALTER TABLE `history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 
@@ -124,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `publisher` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table elibrary.publisher: ~1 rows (approximately)
+-- Dumping data for table elibrary.publisher: ~2 rows (approximately)
 /*!40000 ALTER TABLE `publisher` DISABLE KEYS */;
 INSERT INTO `publisher` (`id`, `pub_name`, `city`, `state`, `country`) VALUES
 	(1, 'John House', NULL, NULL, NULL),
@@ -143,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   CONSTRAINT `FK_reservation_system` FOREIGN KEY (`system_id`) REFERENCES `system` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table elibrary.reservation: ~0 rows (approximately)
+-- Dumping data for table elibrary.reservation: ~3 rows (approximately)
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 
@@ -162,8 +180,7 @@ CREATE TABLE IF NOT EXISTS `system` (
 INSERT INTO `system` (`id`, `ower_id`) VALUES
 	(2, 2),
 	(3, 4),
-	(4, 5),
-	(9, 11);
+	(4, 5);
 /*!40000 ALTER TABLE `system` ENABLE KEYS */;
 
 
@@ -192,8 +209,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `fname`, `lname`, `registration_date`, `role_id`, `email`, `blocked`, `activation_key`, `user_status`, `display_name`) VALUES
 	(2, 'johndoe', '6eeafaef013319822a1f30407a5353f778b59790', 'John', 'Doe', '2012-06-14 21:20:45', 1, 'johndoe@yahoo.com', 'N', '111', 'Y', 'John Doe'),
 	(4, 'janedoe', '6eeafaef013319822a1f30407a5353f778b59790', 'Jane', 'Doe', '2012-06-14 21:20:45', 1, 'janedoe@yahoo.com', 'N', '111', 'Y', 'Jane Doe'),
-	(5, 'pauldoe', '6eeafaef013319822a1f30407a5353f778b59790', 'Paul', 'Doe', '2012-06-14 21:20:45', 9999, 'pauldoe@yahoo.com', 'N', '111', 'Y', 'Paul Doe'),
-	(11, 'drewbdennis', '6eeafaef013319822a1f30407a5353f778b59790', 'Drew', 'Dennis', '2013-01-14 00:00:00', 1, 'drewbdennis@yahoo.com', 'N', '111', 'Y', 'Drew Dennis');
+	(5, 'pauldoe', '6eeafaef013319822a1f30407a5353f778b59790', 'Paul', 'Doe', '2012-06-14 21:20:45', 9999, 'pauldoe@yahoo.com', 'N', '111', 'Y', 'Paul Doe');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
@@ -241,8 +257,7 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
 INSERT INTO `user_profile` (`id`, `system_id`, `fullname`, `email`, `phone`, `mobilephone`, `dob`, `gender`, `address`, `country`, `city`, `state`, `zip`, `fax`, `photo`, `website`) VALUES
 	(2, 2, 'John Doe', 'johndoe@yahoo.com', 'N/A', '60143298260', 'January 21, 1980', 'Male', 'This is my test address', 'Malaysia', 'Kuala Lumpur', 'WP', '58200', 'N/A', NULL, 'N/A'),
 	(3, 3, 'Jane Doe', 'janedoe@yahoo.com', '1234567890', '1234567890', 'January 21, 1980', 'Female', 'This is my test address', 'Bostwana', 'Gaborone', 'N/A', '12345', 'N/A', NULL, 'N/A'),
-	(4, 4, 'Paul Doe', 'pauldoe@yahoo.com', '1234567890', '1234567890', 'January 21, 1980', 'Male', 'This is my test address', 'Malaysia', 'Kuala Lumpur', 'N/A', '12345', 'N/A', NULL, 'N/A'),
-	(8, 9, 'Drew Dennis', 'drewbdennis@yahoo.com', 'N/A', 'N/A', 'N/A', NULL, NULL, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A');
+	(4, 4, 'Paul Doe', 'pauldoe@yahoo.com', '1234567890', '1234567890', 'January 21, 1980', 'Male', 'This is my test address', 'Malaysia', 'Kuala Lumpur', 'N/A', '12345', 'N/A', NULL, 'N/A');
 /*!40000 ALTER TABLE `user_profile` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

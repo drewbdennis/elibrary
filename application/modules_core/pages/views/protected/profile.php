@@ -6,98 +6,53 @@
 		
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
-			<h3>User Profile</h3>
-			<!-- form below here -->
-			<div>
-				<div class="pull-right" style="padding-bottom:10px;">
-					<a href="<?php echo base_url(); ?>settings/">
-						<i class="icon-pencil"></i>
-						Edit
-					</a>
+			<h3><?php echo "$fullname"; ?></h3>
+			<!-- new ui -->
+			<div class="row" style="margin-left: 1px;">
+				<div class="span3">
+					<img class="img-rounded pull-left" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png" />
 				</div>
-				<table class="table border-remove">
-					<thead></thead>
-					<tbody>
-						<tr>
-							<td><b>Fullname</b></td>
-							<td>
-								<?php echo "$fullname"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Email</b></td>
-							<td>
-								<?php echo "$email"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Phone</b></td>
-							<td>
-								<?php echo "$phone"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Mobile</b></td>
-							<td>
-								<?php echo "$mobile"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>DOB</b></td>
-							<td>
-								<?php echo "$dob"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Gender</b></td>
-							<td>
-								<?php echo "$gender"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Address</b></td>
-							<td>
-								<?php echo "$address"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Country</b></td>
-							<td>
-								<?php echo "$country"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>City</b></td>
-							<td>
-								<?php echo "$city"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>State</b></td>
-							<td>
-								<?php echo "$state"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Zip/Postal Code</b></td>
-							<td>
-								<?php echo "$zip"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Fax</b></td>
-							<td>
-								<?php echo "$fax"; ?>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Webmember</b></td>
-							<td>
-								<?php echo "$website"; ?>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="span9">
+					<ul class="unstyled" style="display:inline-block;">
+						<li>
+							<b>Gender: </b><?php echo "$gender"; ?> 
+						</li>
+						<li>
+							<b>Email: </b><?php echo "$email"; ?> 
+						</li>
+						<li>
+							<b>Phone: </b><?php echo "$phone"; ?>
+						</li>
+						<li>
+							<b>Fax: </b><?php echo "$fax"; ?>
+						</li>
+					</ul>
+					<ul class="unstyled" style="display:inline-block;margin-left:30px;">
+						<li>
+							<b>DOB: </b><?php echo "$dob"; ?>
+						</li>
+						<li>
+							<b>Website: </b><?php echo "$website"; ?>
+						</li>
+						<li>
+							<b>Mobile: </b><?php echo "$mobile"; ?>
+						</li>
+						<li>
+							hi
+						</li>
+					</ul>
+				</div>
+				<div class="span9">
+					<p>
+						<b>Address: </b><?php echo $address.', '.$city.', '.$country.', '.$zip.', '.$state; ?>
+					</p>
+				</div>
+			</div>
+			<div style="margin-top:5px;">
+				<a class="btn btn-inverse" href="<?php echo base_url(); ?>settings/">
+					<i class="icon-pencil"></i>
+					Edit Profile
+				</a>
 			</div>
 		</div>
 	</div>

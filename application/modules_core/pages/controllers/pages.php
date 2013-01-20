@@ -3,6 +3,14 @@
 class Pages extends CI_Controller{
 		
 	public function view($page = 'home'){
+		# if database isn't configured
+		$this->load->dbutil();
+		if($this->dbutil->database_exists('elibrary') == FALSE){
+			#redirect to install
+			redirect('../install');
+		}
+		
+		
 		# Default variables
 		$checkpoint = 'application/modules_core/pages/views/public/';
 		$header = 'header';
@@ -66,6 +74,8 @@ class Pages extends CI_Controller{
 				$this->books();
 			}else if($page == 'genres'){
 				$this->genres();
+			}else if($page == 'sms'){
+				$this->sms();
 			}else if($page == 'login'){
 				# login/logout
 				$this->login();
@@ -1167,6 +1177,61 @@ class Pages extends CI_Controller{
 	# manage category
 	
 	# send sms
+	function sms(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			# extract user inout
+			extract($_POST);
+			
+			# check if msg and phone number was provided
+			if(!empty($sms_msg) && !empty($sms_to)){
+				# create an array of sms_to via split of a string
+				$phones = explode(",", $sms_to);
+				
+				# file the sms class file
+				$this->load->file('sms/TextMagicAPI.php', false);
+				# create an instance of the class
+				$sms = new TextMagicAPI();
+				
+				try {
+					# send message
+					$sms->send($sms_msg, $phones, true);
+					# alert user of error
+					$this->session->set_flashdata("noti_sms_success",TRUE);
+					
+				} catch (UnicodeSymbolsDetectedException $e) {
+					//your code
+				} catch (WrongPhoneFormatException $e) {
+					//your code
+				} catch (LowBalanceException $e) {
+					//your code
+				} catch (TooManyItemsException $e) {
+					//your code
+				} catch (AuthenticationException $e) {
+					//your code
+				} catch (IPAddressException $e) {
+					//your code
+				} catch (RequestsLimitExceededException $e) {
+					//your code
+				} catch (TooLongMessageException $e) {
+					//your code
+				} catch (Exception $e) {
+					# alert user of error
+					$this->session->set_flashdata("noti_sms_sys_error",TRUE);
+				}
+				
+			}else{
+				# alert user of error
+				$this->session->set_flashdata("noti_sms_error",TRUE);
+			}
+			
+			# redirect to send_sms
+			redirect('send_sms');
+		}else{
+			# redirect to login page
+			redirect('home');
+		}
+	}
 	
 	# loan history/logs
 	

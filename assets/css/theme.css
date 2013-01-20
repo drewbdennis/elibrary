@@ -80,3 +80,69 @@ footer .credit {
 	  padding-right: 20px;
 	}
 }
+
+
+
+
+
+
+
+/**/
+#send_container
+{
+	width: 660px;
+	text-align: right;
+}
+#sendForm
+{
+	padding: 10px 10px 10px;
+}
+#sendForm fieldset
+{
+	margin-bottom:10px;
+}
+#sendForm legend
+{
+	text-align: left;
+	padding: 2px 2px;
+	/*background-color: #ccc;*/
+}
+#sendForm p
+{
+	margin: 0px;
+}
+#sendForm p span
+{
+	font-size: 9pt;
+	/*width: 607px;*/
+	float: left;
+	text-align: left;
+	margin-top: 2px;
+}
+#sendForm p span input
+{
+	border: none;
+	padding: 4px;
+	width: 23px;
+	font-weight: bold;
+}
+#sendForm label
+{
+	display: inline;
+	color: #000;
+	/*font-weight:700;*/
+	line-height: 1.4em;
+}
+#sendForm textarea
+{
+	padding: 6px;
+	color: #000;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	/*border: 1px solid red;*/
+}
+/* misc */
+.send_date_time
+{
+	text-align: left;
+}

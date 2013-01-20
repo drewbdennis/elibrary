@@ -7,15 +7,26 @@
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
 			<h3><?php echo $title; ?></h3>
-			<?php 
+			<?php
+				if($this->session->flashdata('noti_sms_success')){
+					#display notification
+					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Your sms was sent. </div>';
+				}elseif($this->session->flashdata('noti_sms_error')){
+					#display notification
+					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>All fields are required. </div>';
+				}elseif($this->session->flashdata('noti_sms_sys_error')){
+					#display notification
+					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>Your sms was not received due to system error. </div>';
+				}
+			 
 				$attributes = array(
 		    	//'class' => '',
 		    	'style' => 'margin:0;',
 		    	'id' => 'sendForm',
-		    	'method'=>'get'
+		    	'method'=>'post'
 				);
 						
-				echo form_open('send_sms/',$attributes); ?>
+				echo form_open('sms/',$attributes); ?>
 				  <fieldset>
 					<legend>New SMS Message</legend>
 					<p>

@@ -7,7 +7,7 @@
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
 			<h3>Outstanding Fines</h3>
-			
+			Future enhancement...
 		</div>
 	</div>
 </div>
