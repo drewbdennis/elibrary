@@ -119,8 +119,74 @@ class Pages extends CI_Controller{
 			}
 		}else{
 			if($page == 'my_history'){
-				# my history
-				$this->my_history();
+				#check if user is logged in
+				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
+					# query the db for user info base on id
+					$user = $this->User_model->Get($this->session->userdata('user_id'));
+					
+					# get system id base on user id
+					$system = $this->System_model->Get($this->session->userdata('user_id'));
+					
+					# configure pagination
+					$config['base_url'] = base_url().'my_history';
+					$config['total_rows'] = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)))->num_rows();
+					$config['uri_segment'] = 2;
+					$config['per_page'] = 10;
+					$config['num_links'] = 20;
+					$config['full_tag_open'] = '<div class="pagination"><ul>';
+					$config['full_tag_close'] = '</ul></div>';
+					$config['first_link']      = 'First';
+					$config['first_tag_open']  = '<li>';
+					$config['first_tag_close'] = '</li>';
+					
+					$config['last_link']      = 'Last';
+					$config['last_tag_open']  = '<li>';
+					$config['last_tag_close'] = '</li>';
+					
+					$config['next_link']      = 'Next';
+					$config['next_tag_open']  = '<li>';
+					$config['next_tag_close'] = '</li>';
+					
+					$config['prev_link']      = 'Previous';
+					$config['prev_tag_open']  = '<li>';
+					$config['prev_tag_close'] = '</li>';
+					
+					$config['cur_tag_open']  = '<li class="active"><a>';
+					$config['cur_tag_close'] = '</a></li>';
+					
+					$config['num_tag_open']  = '<li>';
+					$config['num_tag_close'] = '</li>';
+					
+					$this->pagination->initialize($config);
+					
+					$query = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)),$config['per_page'], $this->uri->segment(2));
+					
+					# array of info to pass to site
+					$data = array(
+						'title'=>ucwords(str_replace('_',' ',$page)),
+						'sitename'=>'ELibrary',
+						'categories'=> $this->Category_model->Get(),
+						'display_name'=>$display_name,
+						'categoryModel'=>$this->Category_model,
+						'historyModel'=>$this->History_model,
+						'reservationModel'=>$this->Reservation_model,
+						'authorModel'=>$this->Author_model,
+						'publisherModel'=>$this->Publisher_model,
+						'bookModel'=>$this->Book_model,
+						'rows'=>$query->result_array()
+					);
+					
+					// loads the header template
+					$this->template->load($header,null,$data);
+					// finds and load the page
+					$this->load->view($location.$page,$data);
+					// loads the footer template
+					$this->template->load('footer',null,$data);
+					
+				}else{
+					#redirect to login page
+					redirect('home');
+				}
 			}else if($page == 'my_reservation'){
 				#check if user is logged in
 				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
@@ -1452,78 +1518,6 @@ class Pages extends CI_Controller{
 				}
 			}
 			#redirect
-			redirect('home');
-		}
-	}
-	
-	# my history
-	function my_history(){
-		#check if user is logged in
-		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
-			# query the db for user info base on id
-			$user = $this->User_model->Get($this->session->userdata('user_id'));
-			
-			# get system id base on user id
-			$system = $this->System_model->Get($this->session->userdata('user_id'));
-			
-			# configure pagination
-			$config['base_url'] = base_url().'my_history';
-			$config['total_rows'] = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)))->num_rows();
-			$config['uri_segment'] = 2;
-			$config['per_page'] = 10;
-			$config['num_links'] = 20;
-			$config['full_tag_open'] = '<div class="pagination"><ul>';
-			$config['full_tag_close'] = '</ul></div>';
-			$config['first_link']      = 'First';
-			$config['first_tag_open']  = '<li>';
-			$config['first_tag_close'] = '</li>';
-			
-			$config['last_link']      = 'Last';
-			$config['last_tag_open']  = '<li>';
-			$config['last_tag_close'] = '</li>';
-			
-			$config['next_link']      = 'Next';
-			$config['next_tag_open']  = '<li>';
-			$config['next_tag_close'] = '</li>';
-			
-			$config['prev_link']      = 'Previous';
-			$config['prev_tag_open']  = '<li>';
-			$config['prev_tag_close'] = '</li>';
-			
-			$config['cur_tag_open']  = '<li class="active"><a>';
-			$config['cur_tag_close'] = '</a></li>';
-			
-			$config['num_tag_open']  = '<li>';
-			$config['num_tag_close'] = '</li>';
-			
-			$this->pagination->initialize($config);
-			
-			$query = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)),$config['per_page'], $this->uri->segment(2));
-			
-			# array of info to pass to site
-			$data = array(
-				'title'=>ucwords(str_replace('_',' ',$page)),
-				'sitename'=>'ELibrary',
-				'categories'=> $this->Category_model->Get(),
-				'display_name'=>$display_name,
-				'categoryModel'=>$this->Category_model,
-				'historyModel'=>$this->History_model,
-				'reservationModel'=>$this->Reservation_model,
-				'authorModel'=>$this->Author_model,
-				'publisherModel'=>$this->Publisher_model,
-				'bookModel'=>$this->Book_model,
-				'rows'=>$query->result_array()
-			);
-			
-			// loads the header template
-			$this->template->load($header,null,$data);
-			// finds and load the page
-			$this->load->view($location.$page,$data);
-			// loads the footer template
-			$this->template->load('footer',null,$data);
-			
-		}else{
-			#redirect to login page
 			redirect('home');
 		}
 	}
