@@ -21,6 +21,10 @@
 				}elseif($this->session->flashdata('noti_request_error')){
 					#display notification
 					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>Your request was not received due to system error. </div>';
+				}elseif($this->session->flashdata('account_blocked')){
+					#display notification
+					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><strong>Account is blocked!</strong>
+					 Please contact the administrator.</div>';
 				}
 			?>
 			<div id="container" class="thumbnails">
@@ -28,7 +32,7 @@
 					<?php foreach($rows as $row) : ?>
 					<div class="item">
 						<div class="thumbnail">
-							<h4><?php echo $row["title"]; ?></h4>
+							<!--<h4><?php echo $row["title"]; ?></h4>-->
 							<?php if(!empty($row["image_url"])): ?>
 							<img class="img-rounded" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url().'assets/img/books/'.$row["image_url"];?>" />
 							<?php else: ?>

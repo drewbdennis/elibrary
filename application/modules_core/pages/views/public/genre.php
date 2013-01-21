@@ -14,7 +14,7 @@
 					<?php foreach($rows as $row) : ?>
 					<div class="item">
 						<div class="thumbnail">
-							<h4><?php echo $row["title"]; ?></h4>
+							<!--<h4><?php echo $row["title"]; ?></h4>-->
 							<?php if(!empty($row["image_url"])): ?>
 							<img class="img-rounded" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url().'assets/img/books/'.$row["image_url"];?>" />
 							<?php else: ?>

@@ -110,6 +110,9 @@ class Pages extends CI_Controller{
 			}else if($page == 'reserve'){
 				# reserve book
 				$this->reserve_book();
+			}else if($page == 'manage_account'){
+				# manage account
+				$this->manage_account();
 			}else if($page == 'login'){
 				# login/logout
 				$this->login();
@@ -467,6 +470,8 @@ class Pages extends CI_Controller{
 						'title'=>ucwords(str_replace('_',' ',$page)),
 						'sitename'=>'ELibrary',
 						'categories'=> $this->Category_model->Get(),
+						'systemModel'=>$this->System_model,
+						'userModel'=>$this->User_model,
 						'display_name'=>$display_name,
 						'rows'=>$query->result_array()
 					);
@@ -1633,24 +1638,61 @@ class Pages extends CI_Controller{
 		}
 	}
 	
+	# manage account
+	function manage_account(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			# get user id for url
+			$account_id = $this->uri->segment(2);
+			# get user info
+			$user = $this->User_model->Get($account_id);
+			
+			if($user->blocked == 'Y'){
+				# enable user account
+				$data = array(
+					'blocked'=>'N'
+				);
+				# update user info
+				$this->User_model->Edit($account_id,$data);
+				# display notification to user
+				$this->session->set_flashdata('account_enable',TRUE);
+			}else{
+				# disable user account
+				$data = array(
+					'blocked'=>'Y'
+				);
+				# update user info
+				$this->User_model->Edit($account_id,$data);
+				# display notification to user
+				$this->session->set_flashdata('account_disable',TRUE);
+			}
+			
+			# redirect to send_sms
+			redirect('manage_users');
+		}else{
+			# redirect to login page
+			redirect('home');
+		}
+	}
+	
 	# loan history/logs
 	
 	# login
 	function login(){
 		if($this->session->userdata('logged_in') != 1){
-			#setting validation rules
+			# setting validation rules
 			$this->form_validation->set_rules('login_detail[username]','Username','required|trim|max_length[50]|xss_clean');
 			$this->form_validation->set_rules('login_detail[password]','Password','required|trim|max_length[200]|xss_clean');
 			$this->form_validation->set_error_delimiters('<div class="alert alert-error">','</div>');
 			
-			#login form validation checkpoint
+			# login form validation checkpoint
 			if($this->form_validation->run() == FALSE){
 				# login failed error
 				$this->session->set_flashdata('blank_error',TRUE);
 				# redirect to current page
 				redirect('home');
 			}else{
-				#process user input and login the user
+				# process user input and login the user
 				extract($_POST);
 				$user_id = $this->User_model->check_login($login_detail['username'],$login_detail['password']);
 				if(! $user_id){
@@ -1658,19 +1700,35 @@ class Pages extends CI_Controller{
 					$this->session->set_flashdata('login_error',TRUE);
 				}else{
 					//login successful
-					#get the user role id
+					# get the user role id
 					$user = $this->User_model->Get($user_id);
-					#create an array of user data and stores it in a session
+					# create an array of user data and stores it in a session
 					$login_data = array('logged_in' => TRUE,'user_id' => $user_id,'role_id' => $user->role_id);
 					$this->session->set_userdata($login_data);
 				}
-				#redirect user
+				
+				# get the user role id
+				$user = $this->User_model->Get($user_id);
+				
+				# check if user account is blocked
+				if($user->blocked == "Y"){
+					# array of user session data
+					$login_data = array('logged_in' => '','user_id' => '','role_id' => '');
+					# unset user session
+					$this->session->unset_userdata($login_data);
+					
+					# display notification to user
+					$this->session->set_flashdata('account_blocked',TRUE);
+					#echo 'blocked';
+					
+				}
+				# redirect to homepage
 				redirect('home');
 			}
 		}else{
-			#destroy the session
+			# destroy the session
 			$this->session->sess_destroy();
-			#redirect to homepage
+			# redirect to homepage
 			redirect('home');
 		}
 	}

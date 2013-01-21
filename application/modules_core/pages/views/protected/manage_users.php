@@ -13,6 +13,12 @@
 				}elseif($this->session->flashdata('error')){
 					#display notification
 					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><b>Adding New User:</b> All fields are required!</div>';
+				}elseif($this->session->flashdata('account_enable')){
+					#display notification
+					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a><strong>Warning!</strong>  User account was enabled!</div>';
+				}elseif($this->session->flashdata('account_disable')){
+					#display notification
+					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><strong>Warning!</strong>  User account was disabled!</div>';
 				}
 			?>
 			
@@ -71,10 +77,23 @@
 			<?php if(!empty($rows)): ?>
 			<ul class="media-list">
 				<?php foreach($rows as $row) : ?>
+					<?php 
+						$system = $systemModel->getSystem($row["system_id"]);
+						$user = $userModel->Get($system->ower_id);
+					?>
 				<li class="media" style="border-bottom:1px solid #999;">
 					<img class="pull-left" alt="pic" src="<?php echo base_url();?>assets/img/pics.png" style="width:90px;height:90px;padding-bottom:10px;" />
 					<div>
-						<a class="pull-right" href="#">Disable</a>
+						<a href="<?php echo base_url().'manage_account/'.$user->id; ?>" class="pull-right" href="#">
+							<?php
+								# display enable or disable
+								if($user->blocked == 'Y'){
+									echo 'Enable';
+								}else{
+									echo 'Disable';
+								}
+							?>
+						</a>
 					</div>
 					<table class="table border-remove" style="width:90%;margin-bottom:0;">
 						<tbody>
