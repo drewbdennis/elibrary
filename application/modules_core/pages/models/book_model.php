@@ -43,7 +43,7 @@ Class Book_model extends CI_Model{
 	
 	# edit records
 	function Update($id,$data){
-		$this->db->where('id',$id);
+		$this->db->where('ISBN',$id);
 		$this->db->update('book',$data);
 	}
 	

@@ -62,110 +62,65 @@ class Pages extends CI_Controller{
 			$page = 'manage_users';
 		}
 		
-		#
-		
-		
+		# check if the page exists
 		if ( ! file_exists($checkpoint.$page.'.php'))
 		{
-			// Whoops, we don't have a page for that!
-			redirect('home');
-		}else{
-			if($page == 'books'){
-				$this->books();
-			}else if($page == 'genres'){
-				$this->genres();
-			}else if($page == 'sms'){
-				$this->sms();
-			}else if($page == 'login'){
-				# login/logout
-				$this->login();
-			}else if($page == 'add_category'){
-				# add new category
-				$this->add_category();
-			}else if($page == 'add_book'){
-				# add new book
-				$this->add_book();
-			}else if($page == 'update_profile'){
-				# update profile
-				$this->update_profile();
-			}else if($page == 'update_password'){
-				# update password
-				$this->update_password();
+			if($page == 'edit_book'){
+				# edit book
+				$this->edit_book();
 			}else if($page == 'retrieve_password'){
 				# update password
 				$this->retrieve_password();
 			}else if($page == 'add_user'){
 				# add new user
 				$this->add_user();
-			}else if($page == 'my_history'){
-				#check if user is logged in
-				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
-					# query the db for user info base on id
-					$user = $this->User_model->Get($this->session->userdata('user_id'));
-					
-					# get system id base on user id
-					$system = $this->System_model->Get($this->session->userdata('user_id'));
-					
-					# configure pagination
-					$config['base_url'] = base_url().'my_history';
-					$config['total_rows'] = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)))->num_rows();
-					$config['uri_segment'] = 2;
-					$config['per_page'] = 10;
-					$config['num_links'] = 20;
-					$config['full_tag_open'] = '<div class="pagination"><ul>';
-					$config['full_tag_close'] = '</ul></div>';
-					$config['first_link']      = 'First';
-					$config['first_tag_open']  = '<li>';
-					$config['first_tag_close'] = '</li>';
-					
-					$config['last_link']      = 'Last';
-					$config['last_tag_open']  = '<li>';
-					$config['last_tag_close'] = '</li>';
-					
-					$config['next_link']      = 'Next';
-					$config['next_tag_open']  = '<li>';
-					$config['next_tag_close'] = '</li>';
-					
-					$config['prev_link']      = 'Previous';
-					$config['prev_tag_open']  = '<li>';
-					$config['prev_tag_close'] = '</li>';
-					
-					$config['cur_tag_open']  = '<li class="active"><a>';
-					$config['cur_tag_close'] = '</a></li>';
-					
-					$config['num_tag_open']  = '<li>';
-					$config['num_tag_close'] = '</li>';
-					
-					$this->pagination->initialize($config);
-					
-					$query = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)),$config['per_page'], $this->uri->segment(2));
-					
-					# array of info to pass to site
-					$data = array(
-						'title'=>ucwords(str_replace('_',' ',$page)),
-						'sitename'=>'ELibrary',
-						'categories'=> $this->Category_model->Get(),
-						'display_name'=>$display_name,
-						'categoryModel'=>$this->Category_model,
-						'historyModel'=>$this->History_model,
-						'reservationModel'=>$this->Reservation_model,
-						'authorModel'=>$this->Author_model,
-						'publisherModel'=>$this->Publisher_model,
-						'bookModel'=>$this->Book_model,
-						'rows'=>$query->result_array()
-					);
-					
-					// loads the header template
-					$this->template->load($header,null,$data);
-					// finds and load the page
-					$this->load->view($location.$page,$data);
-					// loads the footer template
-					$this->template->load('footer',null,$data);
-					
-				}else{
-					#redirect to login page
-					redirect('home');
-				}
+			}elseif($page == 'update_book'){
+				# edit book
+				$this->update_book();
+			}else if($page == 'add_category'){
+				# add new category
+				$this->add_category();
+			}else if($page == 'edit_category'){
+				# edit category
+				$this->edit_category();
+			}else if($page == 'update_category'){
+				# update category
+				$this->update_category();
+			}else if($page == 'add_book'){
+				# add new book
+				$this->add_book();
+			}else if($page == 'genres'){
+				$this->genres();
+			}else if($page == 'request'){
+				# request book
+				$this->request();
+			}elseif($page == 'books'){
+				$this->books();
+			}else if($page == 'sms'){
+				$this->sms();
+			}else if($page == 'update_profile'){
+				# update profile
+				$this->update_profile();
+			}else if($page == 'update_password'){
+				# update password
+				$this->update_password();
+			}else if($page == 'loan'){
+				# loan book
+				$this->loan_book();
+			}else if($page == 'reserve'){
+				# reserve book
+				$this->reserve_book();
+			}else if($page == 'login'){
+				# login/logout
+				$this->login();
+			}else{
+				# Whoops, we don't have a page for that!
+				redirect('home');
+			}
+		}else{
+			if($page == 'my_history'){
+				# my history
+				$this->my_history();
 			}else if($page == 'my_reservation'){
 				#check if user is logged in
 				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
@@ -231,159 +186,6 @@ class Pages extends CI_Controller{
 					// loads the footer template
 					$this->template->load('footer',null,$data);
 					
-				}else{
-					#redirect to login page
-					redirect('home');
-				}
-			}else if($page == 'request'){
-				# request a book be added to the library collection
-				#setting validation rules
-				$this->form_validation->set_rules('bk_name','Required','required|trim|max_length[50]|xss_clean');
-				$this->form_validation->set_rules('bk_author','Required','required|trim|max_length[50]|xss_clean');
-				$this->form_validation->set_error_delimiters('<span class="alert alert-error">','</span>');
-				
-				if($this->form_validation->run() == FALSE){
-					#redirect
-					redirect('home');
-				}else{
-					# extracts user input
-					extract($_POST);
-					
-					
-					$book_request = $this->Request_model->Get(mysql_real_escape_string($bk_name));
-					# checkpoint
-					if(!empty($book_request)){
-						$count = $book_request->requested + 1;
-						
-						# create an array of user inputs
-						$data = array(
-							'requested'=>mysql_real_escape_string($count)
-						);
-						# update data
-						$this->Request_model->Update(mysql_real_escape_string($bk_name),$data);
-						# set user notification
-						$this->session->set_flashdata("noti_request_success",TRUE);
-					}else{
-						# create an array of user inputs
-						$data = array(
-							'title'=>mysql_real_escape_string($bk_name),
-							'author'=>mysql_real_escape_string($bk_author)
-						);
-						# insert in database
-						$request_id = $this->Request_model->Add($data);
-						if(!empty($request_id)){
-							# set user notification
-							$this->session->set_flashdata("noti_request_success",TRUE);
-						}else{
-							# set user notification
-							$this->session->set_flashdata("noti_request_error",TRUE);
-						}
-					}
-					#redirect
-					redirect('home');
-				}
-				
-			}else if($page == 'loan'){
-				# loan book
-				#check if user is logged in
-				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
-					# query the db for user info base on id
-					$user = $this->User_model->Get($this->session->userdata('user_id'));
-					
-					# get system id base on user id
-					$system = $this->System_model->Get($this->session->userdata('user_id'));
-					#==============================================================================================>ends	
-					
-					# get count of books user have
-					$this->db->select('*');
-					$this->db->from('history');
-					$this->db->where('system_id', $system->id);
-					$this->db->where('returned', 'N');
-					$count = $this->db->count_all_results();
-					
-					# check the limit of books to loan
-					if($count < 3){
-						# get book id
-						$pid = $this->uri->segment(2);
-						
-						# extract user input
-						extract($_POST);
-						
-						# create data array
-						$data = array(
-							'ISBN'=>mysql_real_escape_string($pid),
-							'system_id'=>mysql_real_escape_string($system->id),
-							'date_out'=>date('Y-m-d'), // current date
-							'date_due'=>date('Y-m-d',strtotime("+1 week")), // date_out + 1week
-							'returned'=>mysql_real_escape_string('N')
-						);
-						
-						# save the changes to db
-						$hid = $this->History_model->Add($data);
-						
-						# check if booking was successful
-						if(!empty($hid)){
-							#set notification to user redirect
-							$this->session->set_flashdata("noti_app",TRUE);
-						}else{
-							#set notification to user redirect
-							$this->session->set_flashdata("book_error",TRUE);
-						}
-					}else{
-						#set notification to user redirect
-						$this->session->set_flashdata("book_max",TRUE);
-					}
-					
-					#redirect to homepage
-					redirect('home');
-				}else{
-					#redirect to login page
-					redirect('home');
-				}
-			}else if($page == 'reserve'){
-				# reserve book
-				#check if user is logged in
-				if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
-					# query the db for user info base on id
-					$user = $this->User_model->Get($this->session->userdata('user_id'));
-					
-					# get system id base on user id
-					$system = $this->System_model->Get($this->session->userdata('user_id'));
-					#==============================================================================================>ends	
-					
-					# get count of fyps user have
-					$this->db->select('*');
-					$this->db->from('reservation');
-					$this->db->where('system_id', $system->id);
-					$count = $this->db->count_all_results();
-					
-					# checks the number of book user can loan
-					if($count < 3){
-						# get book ISBN
-						$pid = $this->uri->segment(2);
-						
-						# extract user input
-						extract($_POST);
-						
-						# create data array
-						$data = array(
-							'ISBN'=>mysql_real_escape_string($pid),
-							'system_id'=>mysql_real_escape_string($system->id),
-							'date_log'=>date('Y-m-d') // current date
-						);
-						
-						# save the changes to db
-						$this->Reservation_model->Add($data);
-						
-						#set notification to user redirect
-						$this->session->set_flashdata("reserved",TRUE);
-					}else{
-						#set notification to user redirect
-						$this->session->set_flashdata("reserve_max",TRUE);
-					}
-					
-					#redirect to homepage
-					redirect('home');
 				}else{
 					#redirect to login page
 					redirect('home');
@@ -1222,7 +1024,74 @@ class Pages extends CI_Controller{
 		}
 	}
 	
-	# add book
+	# edit category
+	function edit_category(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			$data = null;
+			
+			# extract post values
+			extract($_POST);
+			
+			# get category data based on id
+			$category = $this->Category_model->Get($cat_id);
+			
+			$data = '
+					<div class="modal-body">
+					<input type="hidden" value="'.$cat_id.'" name="cat_id">
+				    <label>Category Name</label>
+					<input type="text" class="input input-xlarge" id="cat_name" value="'.$category->name.'" name="cat_name">
+					<label>Category Description</label>
+					<textarea class="span12" id="cat_description" rows="5" cols="30" name="cat_description">'.$category->description.'</textarea>
+				  </div>
+				  <div class="modal-footer">
+				    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				    <input type="submit" class="btn btn-primary" value="Update Category" name="submit">
+				  </div>
+			';
+			
+			echo $data;
+		}
+	}
+	
+	# update category
+	function update_category(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			# setting validation rules
+			$this->form_validation->set_rules('cat_name','','required|trim|max_length[50]|xss_clean');
+			$this->form_validation->set_rules('cat_description','','trim|max_length[255]|xss_clean');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error">','</div>');
+			
+			# 
+			if($this->form_validation->run() == FALSE){
+				# set notification to user redirect
+				$this->session->set_flashdata("error",TRUE);
+				redirect('categories');
+			}else{
+				#process user input
+				extract($_POST);
+				
+				# create an array of user info
+				$data=array(
+					'name'=>mysql_real_escape_string($cat_name),
+					'description'=>mysql_real_escape_string($cat_description)
+				);
+				# add new category
+				$this->Category_model->Update($cat_id,$data);
+				
+				# set notification to user redirect
+				$this -> session -> set_flashdata("noti_update", TRUE);
+				
+				redirect('categories');
+			}
+		}else{
+			#redirect to login page
+			redirect('home');
+		}
+	}
+	
+	# add book (later improve to add author,category,publisher if not in database)
 	function add_book(){
 		#check if user is logged in
 		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
@@ -1235,7 +1104,6 @@ class Pages extends CI_Controller{
 			$this->form_validation->set_rules('bk_description','','trim|xss_clean');
 			$this->form_validation->set_rules('bk_quantity','','required|trim|max_length[10]|xss_clean');
 			$this->form_validation->set_rules('bk_price','','trim|max_length[10]|xss_clean');
-			//$this->form_validation->set_rules('userfile','','required|trim|xss_clean');
 			$this->form_validation->set_rules('bk_category','','required|trim|max_length[50]|xss_clean');
 			$this->form_validation->set_error_delimiters('<div class="alert alert-error">','</div>');
 			
@@ -1295,9 +1163,191 @@ class Pages extends CI_Controller{
 		}
 	}
 	
-	# manage books
+	# edit book
+	function edit_book(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			$data = null;
+			
+			# extract post values
+			extract($_POST);
+			
+			# get book data based on id
+			$book = $this->Book_model->Get($book_id);
+			
+			# get categories
+			$categories = $this->Category_model->Get();
+			
+			# get authora
+			$authors = $this->Author_model->Get();
+			
+			# get publishers
+			$publishers = $this->Publisher_model->Get();
+			
+			$data = '
+					<div class="modal-body">
+					<input type="hidden" value="'.$book_id.'" name="book_id">
+					<div>
+						<div class="fileupload fileupload-new" data-provides="fileupload">
+						  <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+						  	<img class="pull-left" alt="book_pic" src="'.base_url().'assets/img/books/'.$book->image_url.'" />
+						  </div>
+						  <div>
+						    <span class="btn btn-file">
+						    	<span class="fileupload-new">Select image</span>
+						    	<span class="fileupload-exists">Change</span>
+						    	<input type="file" name="userfile" value="" id="userfile" class="input">
+						    </span>
+						    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+						  </div>
+						</div>
+					</div>
+					
+					<div style="padding-bottom: 10px;">
+				    	<input type="text" name="bk_title" value="'.$book->title.'" id="bk_title" class="input input-xlarge" placeholder="Title of Book" maxlength="150">						<span class="label label-important">Required</span>
+					</div>
+					
+					<div style="padding-bottom: 10px;">
+						<select id="bk_author" name="bk_author" style="width:280px;">';
+							foreach($authors as $author){
+								$data = $data.'<option value="'.$author->id.'"';
+								if($book->author_id == $author->id){
+									$data = $data.'selected="selected">'.$author->au_fname.' '.$author->au_lname.'</option>';
+								}else{
+									$data = $data.'>'.$author->au_fname.' '.$author->au_lname.'</option>';
+								}
+							}
+					$data = $data.'</select>
+						<span class="label label-important">Required</span>
+					</div>
+					
+					<div style="padding-bottom: 10px;">
+						<select id="bk_publisher" name="bk_publisher" style="width:280px;">';
+							foreach($publishers as $publish){
+								$data = $data.'<option value="'.$publish->id.'"';
+								if($book->pub_id == $publish->id){
+									$data = $data.'selected="selected">'.$publish->pub_name.'</option>';
+								}else{
+									$data = $data.'>'.$publish->pub_name.'</option>';
+								}
+							}
+					$data = $data.'</select>
+						<span class="label label-important">Required</span>
+					</div>
+					
+					<div style="padding-bottom: 10px;">
+						<input type="text" name="bk_year" value="'.$book->year.'" id="bk_year" class="input input-xlarge" placeholder="Year Published" maxlength="4">						<span class="label label-important">Required</span>
+					</div>
+					
+					<div style="padding-bottom: 10px;">
+						<input type="text" name="bk_quantity" value="'.$book->quantity.'" id="bk_quantity" class="input input-xlarge" placeholder="Quantity" maxlength="10">						<span class="label label-important">Required</span>
+					</div>
+					
+					<div style="padding-bottom: 10px;">
+						<div class="input-prepend">
+							<span class="add-on span4">RM</span>
+							<input type="text" name="bk_price" value="'.$book->price.'" id="bk_price" class="input input-xlarge span12" placeholder="Price" maxlength="10">						</div>
+					</div>
+					
+					<div style="padding-bottom: 10px;">
+						<select id="bk_category" name="bk_category" style="width:280px;">';
+						
+					foreach($categories as $category){
+						$data = $data.'<option value="'.$category->name.'"';
+						if($book->cat_name == $category->name){
+							$data = $data.'selected="selected">'.$category->name.'</option>';
+						}else{
+							$data = $data.'>'.$category->name.'</option>';
+						}
+					}	
+						
+					$data = $data.'</select>
+						<span class="label label-important">Required</span>
+					</div>
+				
+					<label>Description</label>
+					<textarea name="bk_description" cols="30" rows="5" id="bk_description" class="span12">'.$book->description.'</textarea>				
+				</div>
+				  <div class="modal-footer">
+				    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				    <input type="submit" name="submit" value="Update Book" class="btn btn-primary">
+				</div>
+			';
+			
+			echo $data;
+		}
+	}
 	
-	# manage category
+	# update book
+	function update_book(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			# set upload config
+			$config['upload_path'] = './assets/img/books/';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+			$config['max_size'] = 0;
+			$config['encrypt_name'] = TRUE;
+			
+			# loaded and set configuration for library
+			$this->load->library('upload', $config);
+			
+			# check if file was uploaded
+			if (!$this->upload->do_upload('userfile')) {
+				# not new book image
+				# process user input
+				extract($_POST);
+				
+				# create an array of user info
+				$data=array(
+					'title'=>mysql_real_escape_string($bk_title),
+					'author_id'=>mysql_real_escape_string($bk_author),
+					'pub_id'=>mysql_real_escape_string($bk_publisher),
+					'year'=>mysql_real_escape_string($bk_year),
+					'description'=>mysql_real_escape_string($bk_description),
+					'quantity'=>mysql_real_escape_string($bk_quantity),
+					'price'=>mysql_real_escape_string($bk_price),
+					'cat_name'=>mysql_real_escape_string($bk_category)
+				);
+				# update category
+				$this->Book_model->Update($book_id,$data);
+				
+				# set notification to user redirect
+				$this -> session -> set_flashdata("noti_update", TRUE);
+			}else{
+				# process user input
+				extract($_POST);
+				
+				# get info about uploaded file and assign to $file
+				$file = $this->upload->data();
+				
+				# create an array of user info
+				$data=array(
+					'title'=>mysql_real_escape_string($bk_title),
+					'author_id'=>mysql_real_escape_string($bk_author),
+					'pub_id'=>mysql_real_escape_string($bk_publisher),
+					'year'=>mysql_real_escape_string($bk_year),
+					'description'=>mysql_real_escape_string($bk_description),
+					'quantity'=>mysql_real_escape_string($bk_quantity),
+					'price'=>mysql_real_escape_string($bk_price),
+					'image_url'=>mysql_real_escape_string($file['file_name']),
+					'cat_name'=>mysql_real_escape_string($bk_category)
+				);
+				# update category
+				$this->Book_model->Update($book_id,$data);
+				
+				# set notification to user redirect
+				$this -> session -> set_flashdata("noti_update", TRUE);
+				
+			}			
+			
+			# redirect to manage books
+			redirect('manage_books');
+			
+		}else{
+			#redirect to login page
+			redirect('home');
+		}
+	}
 	
 	# send sms
 	function sms(){
@@ -1352,6 +1402,239 @@ class Pages extends CI_Controller{
 			redirect('send_sms');
 		}else{
 			# redirect to login page
+			redirect('home');
+		}
+	}
+
+	# request book
+	function request(){
+		# request a book be added to the library collection
+		#setting validation rules
+		$this->form_validation->set_rules('bk_name','Required','required|trim|max_length[50]|xss_clean');
+		$this->form_validation->set_rules('bk_author','Required','required|trim|max_length[50]|xss_clean');
+		$this->form_validation->set_error_delimiters('<span class="alert alert-error">','</span>');
+		
+		if($this->form_validation->run() == FALSE){
+			#redirect
+			redirect('home');
+		}else{
+			# extracts user input
+			extract($_POST);
+			
+			
+			$book_request = $this->Request_model->Get(mysql_real_escape_string($bk_name));
+			# checkpoint
+			if(!empty($book_request)){
+				$count = $book_request->requested + 1;
+				
+				# create an array of user inputs
+				$data = array(
+					'requested'=>mysql_real_escape_string($count)
+				);
+				# update data
+				$this->Request_model->Update(mysql_real_escape_string($bk_name),$data);
+				# set user notification
+				$this->session->set_flashdata("noti_request_success",TRUE);
+			}else{
+				# create an array of user inputs
+				$data = array(
+					'title'=>mysql_real_escape_string($bk_name),
+					'author'=>mysql_real_escape_string($bk_author)
+				);
+				# insert in database
+				$request_id = $this->Request_model->Add($data);
+				if(!empty($request_id)){
+					# set user notification
+					$this->session->set_flashdata("noti_request_success",TRUE);
+				}else{
+					# set user notification
+					$this->session->set_flashdata("noti_request_error",TRUE);
+				}
+			}
+			#redirect
+			redirect('home');
+		}
+	}
+	
+	# my history
+	function my_history(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
+			# query the db for user info base on id
+			$user = $this->User_model->Get($this->session->userdata('user_id'));
+			
+			# get system id base on user id
+			$system = $this->System_model->Get($this->session->userdata('user_id'));
+			
+			# configure pagination
+			$config['base_url'] = base_url().'my_history';
+			$config['total_rows'] = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)))->num_rows();
+			$config['uri_segment'] = 2;
+			$config['per_page'] = 10;
+			$config['num_links'] = 20;
+			$config['full_tag_open'] = '<div class="pagination"><ul>';
+			$config['full_tag_close'] = '</ul></div>';
+			$config['first_link']      = 'First';
+			$config['first_tag_open']  = '<li>';
+			$config['first_tag_close'] = '</li>';
+			
+			$config['last_link']      = 'Last';
+			$config['last_tag_open']  = '<li>';
+			$config['last_tag_close'] = '</li>';
+			
+			$config['next_link']      = 'Next';
+			$config['next_tag_open']  = '<li>';
+			$config['next_tag_close'] = '</li>';
+			
+			$config['prev_link']      = 'Previous';
+			$config['prev_tag_open']  = '<li>';
+			$config['prev_tag_close'] = '</li>';
+			
+			$config['cur_tag_open']  = '<li class="active"><a>';
+			$config['cur_tag_close'] = '</a></li>';
+			
+			$config['num_tag_open']  = '<li>';
+			$config['num_tag_close'] = '</li>';
+			
+			$this->pagination->initialize($config);
+			
+			$query = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)),$config['per_page'], $this->uri->segment(2));
+			
+			# array of info to pass to site
+			$data = array(
+				'title'=>ucwords(str_replace('_',' ',$page)),
+				'sitename'=>'ELibrary',
+				'categories'=> $this->Category_model->Get(),
+				'display_name'=>$display_name,
+				'categoryModel'=>$this->Category_model,
+				'historyModel'=>$this->History_model,
+				'reservationModel'=>$this->Reservation_model,
+				'authorModel'=>$this->Author_model,
+				'publisherModel'=>$this->Publisher_model,
+				'bookModel'=>$this->Book_model,
+				'rows'=>$query->result_array()
+			);
+			
+			// loads the header template
+			$this->template->load($header,null,$data);
+			// finds and load the page
+			$this->load->view($location.$page,$data);
+			// loads the footer template
+			$this->template->load('footer',null,$data);
+			
+		}else{
+			#redirect to login page
+			redirect('home');
+		}
+	}
+	
+	# loan book
+	function loan_book(){
+		# loan book
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
+			# query the db for user info base on id
+			$user = $this->User_model->Get($this->session->userdata('user_id'));
+			
+			# get system id base on user id
+			$system = $this->System_model->Get($this->session->userdata('user_id'));
+			#==============================================================================================>ends	
+			
+			# get count of books user have
+			$this->db->select('*');
+			$this->db->from('history');
+			$this->db->where('system_id', $system->id);
+			$this->db->where('returned', 'N');
+			$count = $this->db->count_all_results();
+			
+			# check the limit of books to loan
+			if($count < 3){
+				# get book id
+				$pid = $this->uri->segment(2);
+				
+				# extract user input
+				extract($_POST);
+				
+				# create data array
+				$data = array(
+					'ISBN'=>mysql_real_escape_string($pid),
+					'system_id'=>mysql_real_escape_string($system->id),
+					'date_out'=>date('Y-m-d'), // current date
+					'date_due'=>date('Y-m-d',strtotime("+1 week")), // date_out + 1week
+					'returned'=>mysql_real_escape_string('N')
+				);
+				
+				# save the changes to db
+				$hid = $this->History_model->Add($data);
+				
+				# check if booking was successful
+				if(!empty($hid)){
+					#set notification to user redirect
+					$this->session->set_flashdata("noti_app",TRUE);
+				}else{
+					#set notification to user redirect
+					$this->session->set_flashdata("book_error",TRUE);
+				}
+			}else{
+				#set notification to user redirect
+				$this->session->set_flashdata("book_max",TRUE);
+			}
+			
+			#redirect to homepage
+			redirect('home');
+		}else{
+			#redirect to login page
+			redirect('home');
+		}
+	}
+	
+	# reserve book
+	function reserve_book(){
+		# reserve book
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
+			# query the db for user info base on id
+			$user = $this->User_model->Get($this->session->userdata('user_id'));
+			
+			# get system id base on user id
+			$system = $this->System_model->Get($this->session->userdata('user_id'));
+			#==============================================================================================>ends	
+			
+			# get count of fyps user have
+			$this->db->select('*');
+			$this->db->from('reservation');
+			$this->db->where('system_id', $system->id);
+			$count = $this->db->count_all_results();
+			
+			# checks the number of book user can loan
+			if($count < 3){
+				# get book ISBN
+				$pid = $this->uri->segment(2);
+				
+				# extract user input
+				extract($_POST);
+				
+				# create data array
+				$data = array(
+					'ISBN'=>mysql_real_escape_string($pid),
+					'system_id'=>mysql_real_escape_string($system->id),
+					'date_log'=>date('Y-m-d') // current date
+				);
+				
+				# save the changes to db
+				$this->Reservation_model->Add($data);
+				
+				#set notification to user redirect
+				$this->session->set_flashdata("reserved",TRUE);
+			}else{
+				#set notification to user redirect
+				$this->session->set_flashdata("reserve_max",TRUE);
+			}
+			
+			#redirect to homepage
+			redirect('home');
+		}else{
+			#redirect to login page
 			redirect('home');
 		}
 	}

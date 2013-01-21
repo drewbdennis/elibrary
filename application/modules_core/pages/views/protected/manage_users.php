@@ -18,7 +18,7 @@
 			
 			<div>
 				<h3 style="display:inline-block;">Manage Users</h3>
-				<div class="pull-right">
+				<div class="pull-right height35">
 					<?php echo form_open('manage_users/','style="display:inline-block;"'); ?>
 					  <input name="usrname" type="text" class="input-medium" placeholder="search by fullname">
 					  <!--<button type="submit" class="btn">Search</button>-->

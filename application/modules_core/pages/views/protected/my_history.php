@@ -8,7 +8,7 @@
 		<div class="span9" style="margin-left: 25%;">
 			<div>
 				<h3 style="display:inline-block;"><?php echo $title; ?></h3>
-				<div class="pull-right">
+				<div class="pull-right height35">
 					<a class="no-underline" href="#" title="Delete All">Delete All</a>
 				</div>
 			</div>
