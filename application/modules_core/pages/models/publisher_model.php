@@ -23,6 +23,7 @@ Class Publisher_model extends CI_Model{
 			}
 		}else{
 			# get all
+			$this->db->order_by('pub_name','asc');
 			$query = $this->db->get();
 			if($query->num_rows() > 0){
 				# get some rows, return as assoc array

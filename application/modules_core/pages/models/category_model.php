@@ -23,6 +23,7 @@ Class Category_model extends CI_Model{
 			}
 		}else{
 			# get all
+			$this->db->order_by('name','asc');
 			$query = $this->db->get();
 			if($query->num_rows() > 0){
 				# get some rows, return as assoc array

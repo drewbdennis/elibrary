@@ -9,10 +9,15 @@
 			<?php
 				if($this->session->flashdata('notification')){
 					#display notification
-					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Book was added successful!</div>';
+					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a>Book was added successful!</div>';
 				}elseif($this->session->flashdata('error')){
 					#display notification
-					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><b>Adding New Book:</b> All fields are required!</div>';
+					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><b>Adding New Book:</b> Make sure all required fields are filled!</div>';
+				}elseif($this->session->flashdata('upload_error')){
+					#display notification
+					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a>
+							Something when wrong. Please make sure file was selected. (gif,jpg,png) are allowed.
+						</div>';
 				}
 			?>
 			
@@ -33,36 +38,91 @@
 			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 			    <h3 id="myModalLabel">Add New Book</h3>
 			  </div>
-			  <?php echo form_open('add_books/','style="margin:0;"'); ?>
+			  <?php echo form_open_multipart('add_book/','style="margin:0;" class="form-horizontal"'); ?>
 				  <div class="modal-body">
-				  	load image here...
+				  	<div>
+						<div class="fileupload fileupload-new" data-provides="fileupload" style="display: inline-block;">
+							<div class="input-append">
+								<div class="uneditable-input span3">
+									<i class="icon-file fileupload-exists"></i>
+									<span class="fileupload-preview"></span>
+								</div>
+								<span class="btn btn-file">
+									<span class="fileupload-new">Select file</span>
+									<span class="fileupload-exists">Change</span>
+									<?php echo form_upload(array('type'=>'file','id' => 'userfile', 'name' => 'userfile', 'class' => 'input'),set_value('userfile')); ?>
+								</span>
+								<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+							</div>
+						</div>
+						<span class="label label-important">Required</span>
+					</div>
 				  	
-				  	<label>ISBN</label>
-					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
+				  	<div style="padding-bottom: 10px;">
+					    <?php echo form_input(array('id' => 'ISBN', 'name' => 'ISBN', 'class' => 'input input-xlarge','placeholder'=>'ISBN'),set_value('ISBN')); ?>
+						<span class="label label-important">Required</span>
+					</div>
 					
-				    <label>Title of Book</label>
-					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
+					<div style="padding-bottom: 10px;">
+				    	<?php echo form_input(array('id' => 'bk_title', 'name' => 'bk_title', 'class' => 'input input-xlarge','placeholder'=>'Title of Book'),set_value('bk_title')); ?>
+						<span class="label label-important">Required</span>
+					</div>
 					
-					<label>Name of Author</label>
-					<?php echo form_input(array('id' => 'lname', 'name' => 'lname', 'class' => 'input input-xlarge'),set_value('lname')); ?>
+					<div style="padding-bottom: 10px;">
+						<select id="bk_author" name="bk_author" style="width:280px;">
+							<option value="" selected="selected">Please select author</option>
+							<?php if(!empty($authors)): ?>
+								<?php foreach($authors as $author): ?>
+									<option value="<?php echo $author->id; ?>"><?php echo $author->au_fname.' '.$author->au_lname; ?></option>
+								<?php endforeach;?>
+							<?php endif; ?>
+						</select>
+						<span class="label label-important">Required</span>
+					</div>
 					
-					<label>Name of Publisher</label>
-					<?php echo form_input(array('id' => 'usr_email', 'name' => 'usr_email', 'class' => 'input input-xlarge'),set_value('usr_email')); ?>
+					<div style="padding-bottom: 10px;">
+						<select id="bk_publisher" name="bk_publisher" style="width:280px;">
+							<option value="" selected="selected">Please select publisher</option>
+							<?php if(!empty($publishers)): ?>
+								<?php foreach($publishers as $publisher): ?>
+									<option value="<?php echo $publisher->id; ?>"><?php echo $publisher->pub_name; ?></option>
+								<?php endforeach;?>
+							<?php endif; ?>
+						</select>
+						<span class="label label-important">Required</span>
+					</div>
 					
-					<label>Year Published</label>
-					<?php echo form_input(array('id' => 'username', 'name' => 'username', 'class' => 'input input-xlarge'),set_value('username')); ?>
+					<div style="padding-bottom: 10px;">
+						<?php echo form_input(array('id' => 'bk_year', 'name' => 'bk_year', 'class' => 'input input-xlarge','placeholder'=>'Year Published'),set_value('bk_year')); ?>
+						<span class="label label-important">Required</span>
+					</div>
 					
-					<label>Quantity</label>
-					<?php echo form_input(array('id' => 'new_password1', 'name' => 'new_password1', 'class' => 'input input-xlarge'),set_value('new_password1')); ?>
+					<div style="padding-bottom: 10px;">
+						<?php echo form_input(array('id' => 'bk_quantity', 'name' => 'bk_quantity', 'class' => 'input input-xlarge','placeholder'=>'Quantity'),set_value('bk_quantity')); ?>
+						<span class="label label-important">Required</span>
+					</div>
 					
-					<label>Price</label>
-					<?php echo form_input(array('id' => 'new_password2', 'name' => 'new_password2', 'class' => 'input input-xlarge')); ?>
+					<div style="padding-bottom: 10px;">
+						<div class="input-prepend">
+							<span class="add-on span4">RM</span>
+							<?php echo form_input(array('id' => 'bk_price', 'name' => 'bk_price', 'class' => 'input input-xlarge span12','placeholder'=>'Price'),set_value('bk_price')); ?>
+						</div>
+					</div>
 					
-					<label>Genre</label>
-					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
+					<div style="padding-bottom: 10px;">
+						<select id="bk_category" name="bk_category" style="width:280px;">
+							<option value="" selected="selected">Please select genre</option>
+							<?php if(!empty($categories)): ?>
+								<?php foreach($categories as $category): ?>
+									<option value="<?php echo $category->name; ?>"><?php echo $category->name; ?></option>
+								<?php endforeach;?>
+							<?php endif; ?>
+						</select>
+						<span class="label label-important">Required</span>
+					</div>
 				
 					<label>Description</label>
-					<?php echo form_textarea(array('id' => 'lname', 'name' => 'lname', 'cols'=>'30', 'rows'=>'5','class'=>'span12'),set_value('lname')); ?>
+					<?php echo form_textarea(array('id' => 'bk_description', 'name' => 'bk_description', 'cols'=>'30', 'rows'=>'5','class'=>'span12'),set_value('bk_description')); ?>
 				
 				</div>
 				  <div class="modal-footer">

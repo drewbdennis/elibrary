@@ -12,7 +12,7 @@
 					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Category was added successful!</div>';
 				}elseif($this->session->flashdata('error')){
 					#display notification
-					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><b>Adding New Category:</b> All fields are required!</div>';
+					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><b>Adding New Category:</b> Category Name is required!</div>';
 				}
 			?>
 			
@@ -36,10 +36,10 @@
 			  <?php echo form_open('add_category/','style="margin:0;"'); ?>
 				  <div class="modal-body">
 				    <label>Category Name</label>
-					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
+					<?php echo form_input(array('id' => 'cat_name', 'name' => 'cat_name', 'class' => 'input input-xlarge'),set_value('cat_name')); ?>
 					
 					<label>Category Description</label>
-					<?php echo form_textarea(array('id' => 'lname', 'name' => 'lname', 'cols'=>'30', 'rows'=>'5','class'=>'span12'),set_value('lname')); ?>
+					<?php echo form_textarea(array('id' => 'cat_description', 'name' => 'cat_description', 'cols'=>'30', 'rows'=>'5','class'=>'span12'),set_value('cat_description')); ?>
 				  </div>
 				  <div class="modal-footer">
 				    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>

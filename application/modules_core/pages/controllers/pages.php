@@ -79,6 +79,12 @@ class Pages extends CI_Controller{
 			}else if($page == 'login'){
 				# login/logout
 				$this->login();
+			}else if($page == 'add_category'){
+				# add new category
+				$this->add_category();
+			}else if($page == 'add_book'){
+				# add new book
+				$this->add_book();
 			}else if($page == 'update_profile'){
 				# update profile
 				$this->update_profile();
@@ -670,6 +676,8 @@ class Pages extends CI_Controller{
 						'title'=>ucwords(str_replace('_',' ',$page)),
 						'sitename'=>'ELibrary',
 						'categories'=> $this->Category_model->Get(),
+						'authors'=> $this->Author_model->Get(),
+						'publishers'=> $this->Publisher_model->Get(),
 						'display_name'=>$display_name,
 						'categoryModel'=>$this->Category_model,
 						'authorModel'=>$this->Author_model,
@@ -826,6 +834,8 @@ class Pages extends CI_Controller{
 		$this->pagination->initialize($config);
 		
 		$query = $this->db->get_where('book',null,$config['per_page'], $this->uri->segment(2));
+		//$this->db->get_where('book',null,$config['per_page'], $this->uri->segment(2));
+		//$query = $this->db->order_by('title','asc');
 		$rows = $query->result_array();
 		
 		$data = null;
@@ -1165,6 +1175,119 @@ class Pages extends CI_Controller{
 				$this->session->set_flashdata("notification",TRUE);
 				
 				redirect('manage_users');
+			}
+		}else{
+			#redirect to login page
+			redirect('home');
+		}
+	}
+	
+	# add category
+	function add_category(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			# setting validation rules
+			$this->form_validation->set_rules('cat_name','','required|trim|max_length[50]|xss_clean');
+			$this->form_validation->set_rules('cat_description','','trim|max_length[255]|xss_clean');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error">','</div>');
+			
+			# 
+			if($this->form_validation->run() == FALSE){
+				# set notification to user redirect
+				$this->session->set_flashdata("error",TRUE);
+				redirect('categories');
+			}else{
+				#process user input
+				extract($_POST);
+				
+				# create an array of user info
+				$data=array(
+					'name'=>mysql_real_escape_string($cat_name),
+					'description'=>mysql_real_escape_string($cat_description)
+				);
+				# add new category
+				$cat_id = $this->Category_model->Add($data);
+				
+				# check if data was added
+				if (!empty($cat_id)) {
+					#set notification to user redirect
+					$this -> session -> set_flashdata("notification", TRUE);
+				}
+				
+				redirect('categories');
+			}
+		}else{
+			#redirect to login page
+			redirect('home');
+		}
+	}
+	
+	# add book
+	function add_book(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 9999){
+			# setting validation rules
+			$this->form_validation->set_rules('ISBN','','required|trim|max_length[9]|xss_clean');
+			$this->form_validation->set_rules('bk_title','','required|trim|max_length[150]|xss_clean');
+			$this->form_validation->set_rules('bk_author','','required|trim|max_length[10]|xss_clean');
+			$this->form_validation->set_rules('bk_publisher','','required|trim|max_length[10]|xss_clean');
+			$this->form_validation->set_rules('bk_year','','required|trim|max_length[4]|xss_clean');
+			$this->form_validation->set_rules('bk_description','','trim|xss_clean');
+			$this->form_validation->set_rules('bk_quantity','','required|trim|max_length[10]|xss_clean');
+			$this->form_validation->set_rules('bk_price','','trim|max_length[10]|xss_clean');
+			//$this->form_validation->set_rules('userfile','','required|trim|xss_clean');
+			$this->form_validation->set_rules('bk_category','','required|trim|max_length[50]|xss_clean');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error">','</div>');
+			
+			# validates the form
+			if($this->form_validation->run() == FALSE){
+				# set notification to user redirect
+				$this->session->set_flashdata("error",TRUE);
+				redirect('manage_books');
+			}else{
+				# set upload config
+				$config['upload_path'] = './assets/img/books/';
+				$config['allowed_types'] = 'gif|jpg|png|jpeg';
+				$config['max_size'] = 0;
+				$config['encrypt_name'] = TRUE;
+				
+				# loaded and set configuration for library
+				$this->load->library('upload', $config);
+				
+				# check if file was uploaded
+				if (!$this->upload->do_upload('userfile')) {
+					# set notification to user redirect
+					$this->session->set_flashdata("upload_error", TRUE);
+				}else{
+					# process user input
+					extract($_POST);
+					
+					# get info about uploaded file and assign to $file
+					$file = $this->upload->data();
+					
+					# create an array of user info
+					$data=array(
+						'ISBN'=>mysql_real_escape_string($ISBN),
+						'title'=>mysql_real_escape_string($bk_title),
+						'author_id'=>mysql_real_escape_string($bk_author),
+						'pub_id'=>mysql_real_escape_string($bk_publisher),
+						'year'=>mysql_real_escape_string($bk_year),
+						'description'=>mysql_real_escape_string($bk_description),
+						'quantity'=>mysql_real_escape_string($bk_quantity),
+						'price'=>mysql_real_escape_string($bk_price),
+						'image_url'=>mysql_real_escape_string($file['file_name']),
+						'cat_name'=>mysql_real_escape_string($bk_category)
+					);
+					# add new category
+					$book_id = $this->Book_model->Add($data);
+					
+					# set notification to user redirect
+					$this -> session -> set_flashdata("notification", TRUE);
+					
+				}
+				
+				# redirect to manage books
+				redirect('manage_books');
 			}
 		}else{
 			#redirect to login page
