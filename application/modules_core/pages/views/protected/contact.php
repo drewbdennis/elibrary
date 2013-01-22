@@ -8,16 +8,14 @@
 		<div class="span9" style="margin-left: 25%;">
 			<h3>Contact Us</h3>
 			<?php
-				if($this->session->flashdata('noti_request_success')){
+				echo validation_errors();
+				
+				if($this->session->flashdata('sent_success')){
 					#display notification
-					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Your request have been received. </div>';
-				}elseif($this->session->flashdata('noti_request_error')){
+					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">x</a>Your message was sent, and we will contact you asap. </div>';
+				}elseif($this->session->flashdata('sent_error')){
 					#display notification
-					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>Your request was not received due to system error. </div>';
-				}elseif($this->session->flashdata('account_blocked')){
-					#display notification
-					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">x</a><strong>Account is blocked!</strong>
-					 Please contact the administrator.</div>';
+					echo '<div class="alert alert-warning"><a class="close" data-dismiss="alert" href="#">x</a>Your message was not sent, due to system error. </div>';
 				}
 			?>
 			<div id="contact_us">

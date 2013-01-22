@@ -10,7 +10,11 @@
 		        <div class="content">
 		        	<ul class="nav nav-tabs nav-stacked">
 		        		<?php foreach($categories as $cat): ?>
-							<li class="<?php if($genre == ucwords($cat->name)){ echo 'active';} ?>"><a href="<?php echo base_url().'genre/'.str_replace(' ','+', strtolower($cat->name)); ?>"><?php echo ucwords($cat->name); ?></a></li>
+							<li class="<?php if($genre == ucwords($cat->name)){ echo 'active';} ?>">
+								<a href="<?php echo base_url().'genre/'.str_replace(' ','+', strtolower($cat->name)); ?>"><?php echo ucwords($cat->name); ?>
+									<i class="icon-chevron-right"></i>
+								</a>
+							</li>
 						<?php endforeach;?>
 		        	</ul>
 		        </div>
