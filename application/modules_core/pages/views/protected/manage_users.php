@@ -84,7 +84,7 @@
 				<li class="media" style="border-bottom:1px solid #999;">
 					<img class="pull-left" alt="pic" src="<?php echo base_url();?>assets/img/pics.png" style="width:90px;height:90px;padding-bottom:10px;" />
 					<div>
-						<a href="<?php echo base_url().'manage_account/'.$user->id; ?>" class="pull-right" href="#">
+						<a href="<?php echo base_url().'manage_account/'.$user->id; ?>" class="pull-right btn-link" href="#">
 							<?php
 								# display enable or disable
 								if($user->blocked == 'Y'){

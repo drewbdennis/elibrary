@@ -640,6 +640,62 @@ class Pages extends CI_Controller{
 					# redirect to home
 					redirect('home');
 				}
+			}elseif($page == 'contact'){
+				#setting validation rules
+				$this->form_validation->set_rules('subject', '', 'required|trim|max_length[50]|xss_clean');
+				$this->form_validation->set_rules('name', '', 'trim|xss_clean');
+				$this->form_validation->set_rules('email', '', 'required|valid_email|trim|max_length[50]|xss_clean');
+				$this->form_validation->set_rules('message', '', 'required|trim|xss_clean');
+	
+				$this->form_validation->set_error_delimiters('<div class="alert alert-error" style="display:inline-block;">
+				<a class="close" data-dismiss="alert" href="#">x</a><strong>Warning!</strong> ', '</div>');
+				
+				# array of info to pass to site
+				$data = array(
+					'title'=>ucwords(str_replace('_',' ',$page)),
+					'sitename'=>'ELibrary',
+					'categories'=> $this->Category_model->Get(),
+					'display_name'=>$display_name
+				);
+				
+				// loads the header template
+				$this->template->load($header,null,$data);
+				
+				if ($this->form_validation->run() == FALSE) {
+					// finds and load the page
+					$this->load->view($location.$page,$data);
+				}else{
+					#process user input and login the user
+					extract($_POST);
+					
+					# load email library
+					$this->load->library('email');
+					
+					$this->email->set_newline("\r\n");
+					$this->email->from($email, $name);
+					# company email here...
+					$this->email->to('drewbdennis@gmail.com');
+					$this->email->subject($subject);
+					$this->email->message($message);
+					
+					# check if message was sent...
+					if($this->email->send()){
+						#set notification to user redirect
+						$this->session->set_flashdata("sent_success",TRUE);
+					}else{
+						#set notification to user redirect
+						$this->session->set_flashdata("sent_error",TRUE);
+					}
+					
+					# un-comment to debug
+					#echo $this->email->print_debugger();
+					
+					#redirect
+					redirect('contact');
+				}
+				
+				// loads the footer template
+				$this->template->load('footer',null,$data);
 			}else{
 				# array of info to pass to site
 				$data = array(

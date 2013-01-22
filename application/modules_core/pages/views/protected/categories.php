@@ -71,7 +71,7 @@
 				<li class="media" style="border-bottom:1px solid #999;">
 					<div style="margin-left: 110px;">
 						<div class="pull-right" >
-							<a href="#editModal" data-toggle="modal" onclick="update_category('<?php echo $row['id']; ?>'); return false;">Update</a>
+							<a href="#editModal" data-toggle="modal" onclick="update_category('<?php echo $row['id']; ?>'); return false;" class="btn-link">Update</a>
 						</div>
 					</div>
 					<b>Name: </b><?php echo $row["name"]; ?>

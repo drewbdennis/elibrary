@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/bootstrap-fileupload.min.css'; ?>" type="text/css">
 	<link rel="stylesheet" href="<?php echo base_url() . 'assets/css/theme.css'; ?>" type="text/css">
 	<link rel="stylesheet" href="<?php echo base_url() . 'assets/css/nanoscroller.css'; ?>" type="text/css">
-    <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-1.8.3.min.js'; ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/bootstrap.min.js'; ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.masonry.min.js'; ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.infinitescroll.min.js'; ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.nanoscroller.min.js'; ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/bootstrap-fileupload.min.js'; ?>"></script>
-	<!-- functions -->
-	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/functions.js'; ?>"></script>
   </head>
   <body>
   	<div class="wrapper">
@@ -29,7 +21,8 @@
 			    	<?php if($this->session->userdata('role_id') != 9999) : ?>
 				    <ul class="nav">
 				      <li class="<?php if($title == 'Home'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
-				      <li class="<?php if($title == 'About'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>about/">About</a></li>
+				      <li class="<?php if($title == 'About'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>about/">About Us</a></li>
+				      <li class="<?php if($title == 'Contact'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>contact/">Contact Us</a></li>
 				    </ul>
 				    <!-- search form -->
 				    <?php

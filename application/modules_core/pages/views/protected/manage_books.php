@@ -163,7 +163,7 @@
 						<b>ISBN:</b> <?php echo $row["ISBN"]; ?>
 						
 						<div class="pull-right" >
-							<a href="#editModal" data-toggle="modal" onclick="update_book('<?php echo $row['ISBN']; ?>'); return false;">Update</a> | <a href="#">Disable</a>
+							<a href="#editModal" data-toggle="modal" onclick="update_book('<?php echo $row['ISBN']; ?>'); return false;" class="btn-link">Update</a> | <a href="#" class="btn-link">Disable</a>
 						</div>
 					</div>
 					<table class="table border-remove" style="width:90%;margin-bottom:0;">
