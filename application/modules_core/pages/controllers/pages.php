@@ -1279,6 +1279,8 @@ class Pages extends CI_Controller{
 					# set notification to user redirect
 					$this -> session -> set_flashdata("notification", TRUE);
 					
+					# send notification to user about new book
+					$this->new_book_notifi($bk_title);
 				}
 				
 				# redirect to manage books
@@ -1728,6 +1730,40 @@ class Pages extends CI_Controller{
 		}else{
 			# redirect to login page
 			redirect('home');
+		}
+	}
+	
+	# new book notification
+	function new_book_notifi($bk_time = null){
+		# assign bk_title to title
+		$title = $bk_time;
+		
+		# file the sms class file
+		$this->load->file('sms/TextMagicAPI.php', false);
+		# create an instance of the class
+		$sms = new TextMagicAPI();
+		
+		# check for empty or null input
+		if(!empty($title) && $title != ''){
+			# get all user, where user isn't an admin
+			$query = $this->db->query('select * from user_profile P inner join system S on s.id=p.system_id inner join user U on s.ower_id=U.id
+			 where U.role_id!="9999" and P.mobilephone!="" and P.mobilephone!="N/A"');
+			$userInfos = $query->result();
+			# send notification to those with mobile number only
+			foreach($userInfos as $userInfo){
+				# create message for user
+				$message = 'Dear Reader, a new book entitled "'.$title.'" was added to our collection. So come over, get a copy and start reading.';
+				# get and assign user mobile to phone
+				$phones = array($userInfo->mobilephone);
+				# send sms to user
+				try {
+					# send sms
+					$sms->send($message, $phones, true);
+				}catch(Exception $e){
+					# write error to log file
+					log_message('error', "Catched Exception '".__CLASS__ ."' with message '".$e->getMessage()."' in ".$e->getFile().":".$e->getLine());
+				}
+			}
 		}
 	}
 	
