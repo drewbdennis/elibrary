@@ -6,6 +6,15 @@
 		
 		<!-- books -->
 		<div class="span9" style="margin-left: 25%;">
+			<?php
+				if($this->session->flashdata('success_payment')){
+					#display notification
+					echo '<div class="alert alert-success"><a class="close" data-dismiss="alert" href="#">&times;</a>Payment was successful!</div>';
+				}elseif($this->session->flashdata('cancel_payment')){
+					#display notification
+					echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><b>Payment warning:</b> You canceled the payment.</div>';
+				}
+			?>
 			<h3>Outstanding Fines</h3>
 			<?php 
 				$attributes = array(
@@ -15,7 +24,7 @@
 		    	'method'=>'post'
 				);
 				
-				echo form_open('fines/',$attributes);
+				echo form_open('payment/',$attributes);
 			?>
 				<table class="table">
 					<caption style="color:red;">Account will be block if outstanding exceeds RM250.</caption>
@@ -51,9 +60,9 @@
 							<td>
 								<div class="input-prepend">
 								  <span class="add-on">RM</span>
-								  <input class="span2" type="text" placeholder="Amount" value="250">
+								  <input name="total" class="span2" type="text" placeholder="Amount" value="250">
 								</div>
-								<button class="btn btn-primary" type="button">Make Payment</button>
+								<input class="btn btn-primary" type="submit" value="Make Payment">
 							</td>
 						</tr>
 					</tfoot>

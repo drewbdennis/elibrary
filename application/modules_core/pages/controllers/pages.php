@@ -113,6 +113,18 @@ class Pages extends CI_Controller{
 			}else if($page == 'manage_account'){
 				# manage account
 				$this->manage_account();
+			}else if($page == 'payment'){
+				# make payment
+				$this->payment();
+			}else if($page == 'validatePaypal'){
+				# validate payment
+				$this->validatePaypal();
+			}else if($page == 'success'){
+				# successful payment
+				$this->successPayment();
+			}else if($page == 'cancel'){
+				# cancel payment
+				$this->cancelPayment();
 			}else if($page == 'login'){
 				# login/logout
 				$this->login();
@@ -1768,6 +1780,84 @@ class Pages extends CI_Controller{
 	}
 	
 	# loan history/logs
+	
+	
+	# make payment
+	function payment(){
+		#check if user is logged in
+		if($this->session->userdata('logged_in') && $this->session->userdata('role_id') == 1){
+			# extract user input
+			extract($_POST);
+			
+			# check if post data isn't null/empty
+			
+			# create an array of info to store in session
+			$data = array(
+				'totalPrice'=>mysql_real_escape_string($total),
+				'orderId'=>md5(uniqid (rand(), true))
+			);
+			# store data in session
+			$this->session->set_userdata($data);
+			
+			# connects to paypal
+			$this->paypal();
+		}else{
+			#redirect to login page
+			redirect('home');
+		}
+	}
+	
+	# paypal function
+	public function paypal() {
+		# get and load the paypal library
+		$this->load->library('paypal_class');
+		$this->paypal_class->paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';   // testing paypal url
+		//$this->paypal_class->paypal_url = 'https://www.paypal.com/cgi-bin/webscr';     // paypal url
+		$this->paypal_class->add_field('currency_code', 'USD');
+		$this->paypal_class->add_field('business', $this->config->item('bussinessPayPalAccountTest'));
+		//$this->paypal_class->add_field('business', $this->config->item('bussinessPayPalAccount'));
+		$this->paypal_class->add_field('return', base_url().'success'); // return url
+		$this->paypal_class->add_field('cancel_return', base_url().'cancel'); // cancel url
+		$this->paypal_class->add_field('notify_url', base_url().'validatePaypal'); // notify url
+		$totalPrice = $this->session->userdata('totalPrice');
+		$this->paypal_class->add_field('item_name', 'Outstanding Fines');
+		$this->paypal_class->add_field('amount', $totalPrice);
+		$this->paypal_class->add_field('custom', $this->session->userdata('orderId'));
+		$this->paypal_class->submit_paypal_post(); // submit the fields to paypal
+		//$p->dump_fields();      // for debugging, output a table of all the fields
+		exit;
+	}
+
+	# paypal validation function
+	public function validatePaypal() {
+		$this->load->library('paypal_class');
+		$this->paypal_class->paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';   // testing paypal url
+		//$this->paypal_class->paypal_url = 'https://www.paypal.com/cgi-bin/webscr';     // paypal url
+		if ($this->paypal_class->validate_ipn()) {
+		$orderId = trim($_POST['custom']);
+		$itemName = trim($_POST['item_name']);
+		// put your code here
+		}
+		break;
+	}
+	
+	# successful payment
+	function successPayment(){
+		# set notification for user
+		$this->session->set_flashdata('success_payment',TRUE);
+		
+		#redirect to login page
+		redirect('fines');
+	}
+	
+	# cancel payment
+	function cancelPayment(){
+		# set notification for user
+		$this->session->set_flashdata('cancel_payment',TRUE);
+		
+		#redirect to login page
+		redirect('fines');
+	}	
 	
 	# login
 	function login(){

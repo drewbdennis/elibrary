@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '/elibrary/';
+$config['base_url']	= ''; 
 
 /*
 |--------------------------------------------------------------------------
@@ -364,7 +364,14 @@ $config['proxy_ips'] = '';
  * 
  */
 $config['modules_locations'] = array(APPPATH.'modules_core/' => '../modules_core/',);
-
+/*
+ * --------------------------------------------------------------------------
+ * Paypal Config
+ * --------------------------------------------------------------------------
+ * 
+ * 
+ */
+$config['bussinessPayPalAccountTest'] = 'elibra_1359127635_biz@yahoo.com';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
