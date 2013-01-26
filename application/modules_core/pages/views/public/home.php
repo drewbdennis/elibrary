@@ -3,17 +3,19 @@
 	<div class="row-fluid">
 		<!-- sidebar -->
 		<?php include_once('sidebar.php'); ?>
-		<!-- show this section when user isn't logged in -->
-		<!-- notice -->
-		<div class="span9 hero-unit"  style="margin-left: 25%; text-align: center;">
-			<h2>Register to unleash the power of knowledge!</h2>
-			<p>
-				An account allows you to loan, reserve, buy a book, and more. These services are only available to current student, and alumni of 
-				[school name here].
-			</p>
-		</div>
+		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
+			<!-- show this section when user isn't logged in -->
+			<!-- notice -->
+			<div class="hero-unit"  style="text-align: center;">
+				<h2>Register to unleash the power of knowledge!</h2>
+				<p>
+					An account allows you to loan, reserve, buy a book, and more. These services are only available to current student, and alumni of 
+					[school name here].
+				</p>
+			</div>
+			
 			<?php
 				if($this->session->flashdata('noti_request_success')){
 					#display notification
@@ -76,6 +78,12 @@
 			  <a href="<?php echo base_url();?>books/10"></a>
 			</nav>
 		</div>
+		<!-- book section end -->
+		
+		<div class="span2">
+			Advertisment
+		</div>
+		
 		<script>
 			var i = 10;
 			$(function(){
@@ -84,7 +92,7 @@
 					$container.masonry({
 					    // options
 					    itemSelector : '.item',
-					    columnWidth : function( containerWidth ) {return containerWidth / 6;},
+					    columnWidth : function( containerWidth ) {return containerWidth / 5;},
 					    isAnimated: true
 					});
 				});
@@ -114,12 +122,12 @@
 			      });
 				
 			});
+			
+			$('.item').hover(function(){
+				$('.book-tab',this).toggle();
+			});
 		</script>
-		<script>
-$('.item').hover(function(){
-	$('.book-tab',this).toggle();
-});
-</script>
+		
 	</div>
 </div>
 

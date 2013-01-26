@@ -39,6 +39,16 @@
         				<?php $his = $historyModel->GetBook($row["ISBN"]); ?>
         				<?php $res = $reservationModel->Check($row["ISBN"]); ?>
 					<div class="item">
+						<div class="book-tab">
+							<ul class="inline">
+								<li>
+									<a href="#">Full Detail</a>
+								</li>
+								<li class="pull-right">
+									<span class="badge">20+</span>
+								</li>
+							</ul>
+						</div>
 						<div class="thumbnail">
 							<!--<h4><?php echo $row["title"]; ?></h4>-->
 							<?php if(!empty($row["image_url"])): ?>
@@ -108,7 +118,7 @@
 					$container.masonry({
 					    // options
 					    itemSelector : '.item',
-					    columnWidth : function( containerWidth ) {return containerWidth / 4;},
+					    columnWidth : function( containerWidth ) {return containerWidth / 6;},
 					    isAnimated: true
 					});
 				});
@@ -137,6 +147,10 @@
 			        });
 			      });
 				
+			});
+			
+			$('.item').hover(function(){
+				$('.book-tab',this).toggle();
 			});
 		</script>
 	</div>

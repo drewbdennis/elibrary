@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<h3>About ELibrary</h3>
 			<p>
 				Library system provides the users of University of Aden with access to books, journals, articles, and encyclopedias plus helpful 
@@ -42,6 +42,10 @@
 				<li>3. See the requests for new book and be able to approve or reject them.</li>
 				<li>4. Send an sms to people who are having the book currently, stating a reservation has been made on that book.</li>
 			</ul>
+		</div>
+		
+		<div class="span2">
+			Advertisment
 		</div>
 	</div>
 </div>

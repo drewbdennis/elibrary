@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<h3>Contact Us</h3>
 			<?php
 				echo validation_errors();
@@ -41,6 +41,10 @@
 					<?php echo form_close(); ?>
 				</div>
 			</div>
+		</div>
+		
+		<div class="span2">
+			Advertisment
 		</div>
 	</div>
 </div>

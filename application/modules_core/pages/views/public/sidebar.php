@@ -1,6 +1,6 @@
 <!-- sidebar -->
 <div class="span3" style="position: fixed;">
-	<div class="sidebar-nav">
+	<div class="sidebar-nav-fixed">
 		<div style="height:450px;">
 			<ul class="nav nav-tabs nav-stacked">
 				<li class="nav-header">Categories of books</li>
