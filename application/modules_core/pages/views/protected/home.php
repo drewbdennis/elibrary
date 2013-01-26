@@ -48,7 +48,7 @@
 							<?php endif; ?>
 		    				<div class="caption">
 		    					<!--<b><small>RM<?php echo $row["price"]; ?></small></b>-->
-		    					<p>
+		    					<!--<p>
 		    						<?php 
 										if(!empty($row["description"])){
 											if(strlen($row["description"])>150){
@@ -59,7 +59,7 @@
 											echo 'N/A';
 										}
 									?>
-		    					</p>
+		    				</p>-->
 		    					<div class="btn-group">
 		    						<?php if(empty($his)) : ?>
 		    							<?php if($res == FALSE) : ?>

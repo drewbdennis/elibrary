@@ -31,15 +31,25 @@
 				<?php if(!empty($rows)): ?>
 					<?php foreach($rows as $row) : ?>
 					<div class="item">
-						<div class="thumbnail">
+						<div class="book-tab">
+							<ul class="inline">
+								<li>
+									<a href="#">Full Detail</a>
+								</li>
+								<li class="pull-right">
+									<span class="badge">20+</span>
+								</li>
+							</ul>
+						</div>
+						<a class="thumbnail">
 							<!--<h4><?php echo $row["title"]; ?></h4>-->
 							<?php if(!empty($row["image_url"])): ?>
 							<img class="img-rounded" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url().'assets/img/books/'.$row["image_url"];?>" />
 							<?php else: ?>
 							<img class="img-rounded" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png" />
 							<?php endif; ?>
-		    				<div class="caption">
-		    					<!--<b><small>RM<?php echo $row["price"]; ?></small></b>-->
+		    				<!--<div class="caption">
+		    					<b><small>RM<?php echo $row["price"]; ?></small></b>
 		    					<p>
 		    						<?php 
 										if(!empty($row["description"])){
@@ -51,9 +61,9 @@
 											echo 'N/A';
 										}
 									?>
-		    					</p>
-		    				</div>
-		    			</div>
+		    				</p>
+		    				</div>-->
+		    			</a>
 					</div>
 					<?php endforeach; ?>
 				<?php else: ?>
@@ -74,7 +84,7 @@
 					$container.masonry({
 					    // options
 					    itemSelector : '.item',
-					    columnWidth : function( containerWidth ) {return containerWidth / 4;},
+					    columnWidth : function( containerWidth ) {return containerWidth / 6;},
 					    isAnimated: true
 					});
 				});
@@ -105,6 +115,11 @@
 				
 			});
 		</script>
+		<script>
+$('.item').hover(function(){
+	$('.book-tab',this).toggle();
+});
+</script>
 	</div>
 </div>
 

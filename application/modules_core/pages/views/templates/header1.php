@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/bootstrap-fileupload.min.css'; ?>" type="text/css">
 	<link rel="stylesheet" href="<?php echo base_url() . 'assets/css/theme.css'; ?>" type="text/css">
 	<link rel="stylesheet" href="<?php echo base_url() . 'assets/css/nanoscroller.css'; ?>" type="text/css">
+	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-1.8.3.min.js'; ?>"></script>
   </head>
   <body>
   	<div class="wrapper">
