@@ -32,9 +32,9 @@ class Pages extends CI_Controller{
 		
 		# check if user is logged in
 		if($this->session->userdata('logged_in') == 1){
-			$checkpoint = 'application/modules_core/pages/views/protected/';
+			//$checkpoint = 'application/modules_core/pages/views/protected/';
 			$header = 'header1';
-			$location = 'protected/';
+			//$location = 'protected/';
 			# query the db for user info base on id
 			$user = $this->User_model->Get($this->session->userdata('user_id'));
 			$display_name = $user->display_name;

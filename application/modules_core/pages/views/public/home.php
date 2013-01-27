@@ -6,6 +6,7 @@
 		
 		<!-- books -->
 		<div class="sn offset2">
+			<?php if(!$this->session->userdata('logged_in')) : ?>
 			<!-- show this section when user isn't logged in -->
 			<!-- notice -->
 			<div class="hero-unit"  style="text-align: center;">
@@ -15,6 +16,7 @@
 					[school name here].
 				</p>
 			</div>
+			<?php endif; ?>
 			
 			<?php
 				if($this->session->flashdata('noti_request_success')){
@@ -32,6 +34,9 @@
 			<div id="container" class="thumbnails">
 				<?php if(!empty($rows)): ?>
 					<?php foreach($rows as $row) : ?>
+						<?php $cat = $categoryModel->GetCategory($row["cat_name"]); ?>
+        				<?php $his = $historyModel->GetBook($row["ISBN"]); ?>
+        				<?php $res = $reservationModel->Check($row["ISBN"]); ?>
 					<div class="item">
 						<div class="book-tab">
 							<ul class="inline">
@@ -43,16 +48,18 @@
 								</li>
 							</ul>
 						</div>
-						<a class="thumbnail">
+						<div class="thumbnail">
 							<!--<h4><?php echo $row["title"]; ?></h4>-->
 							<?php if(!empty($row["image_url"])): ?>
 							<img class="img-rounded" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url().'assets/img/books/'.$row["image_url"];?>" />
 							<?php else: ?>
 							<img class="img-rounded" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="<?php echo base_url();?>assets/img/pics.png" />
 							<?php endif; ?>
-		    				<!--<div class="caption">
-		    					<b><small>RM<?php echo $row["price"]; ?></small></b>
-		    					<p>
+		    				
+		    				<?php if($this->session->userdata('logged_in')) : ?>
+		    				<div class="caption">
+		    					<!--<b><small>RM<?php echo $row["price"]; ?></small></b>-->
+		    					<!--<p>
 		    						<?php 
 										if(!empty($row["description"])){
 											if(strlen($row["description"])>150){
@@ -63,9 +70,36 @@
 											echo 'N/A';
 										}
 									?>
-		    				</p>
-		    				</div>-->
-		    			</a>
+		    				</p>-->
+		    					<div class="btn-group">
+		    						<?php if(empty($his)) : ?>
+		    							<?php if($res == FALSE) : ?>
+		    								<a href="<?php echo base_url() . 'loan/'.$row["ISBN"]; ?>" class="btn btn-primary">Loan</a>
+		    								<a href="#" class="btn disabled">Reserve</a>
+		    							<?php else: ?>
+		    								<a href="#" class="btn btn-primary disabled">Loan</a>
+		    								<a href="#" class="btn disabled">Reserve</a>
+		    							<?php endif; ?>
+		    						<?php else: ?>
+		    							<?php if($his->returned == 'Y') : ?>
+		    								<a href="<?php echo base_url() . 'loan/'.$row["ISBN"]; ?>" class="btn btn-primary">Loan</a>
+		    							<?php else: ?>
+		    								<a href="#" class="btn btn-primary disabled">Loan</a>
+		    							<?php endif; ?>
+		    							<?php if($res == false): ?>
+		    								<?php if($his->returned == 'N') : ?>
+		    									<a href="<?php echo base_url() . 'reserve/'.$row["ISBN"]; ?>" class="btn">Reserve</a>
+		    								<?php else: ?>
+		    									<a href="#" class="btn disabled">Reserve</a>
+		    								<?php endif; ?>
+		    							<?php else: ?>
+		    								<a href="#" class="btn disabled">Reserve</a>
+		    							<?php endif; ?>
+		    						<?php endif; ?>
+		    					</div>
+		    				</div>
+		    				<?php endif; ?>
+		    			</div>
 					</div>
 					<?php endforeach; ?>
 				<?php else: ?>
