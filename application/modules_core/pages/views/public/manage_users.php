@@ -137,6 +137,10 @@
 				<p>No data to display...</p>
 			<?php endif; ?>
 		</div>
+		
+		<div class="span2">
+			Advertisment
+		</div>
 	</div>
 </div>
 

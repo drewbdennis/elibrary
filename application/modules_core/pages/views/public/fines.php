@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<?php
 				if($this->session->flashdata('success_payment')){
 					#display notification
@@ -68,6 +68,10 @@
 					</tfoot>
 				</table>
 			<?php echo form_close(); ?>
+		</div>
+		
+		<div class="span2">
+			Advertisment
 		</div>
 	</div>
 </div>

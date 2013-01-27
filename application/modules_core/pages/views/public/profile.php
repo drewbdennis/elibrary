@@ -55,6 +55,10 @@
 				</a>
 			</div>
 		</div>
+		
+		<div class="span2">
+			Advertisment
+		</div>
 	</div>
 </div>
 

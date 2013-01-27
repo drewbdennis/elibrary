@@ -161,7 +161,6 @@
 				$('.book-tab',this).toggle();
 			});
 		</script>
-		
 	</div>
 </div>
 

@@ -4,7 +4,7 @@
 		<!-- sidebar -->
 		<?php include_once('sidebar.php'); ?>
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<div id="container" class="thumbnails">
 				<?php if(!empty($rows)): ?>
 					<?php foreach($rows as $row) : ?>
@@ -81,6 +81,10 @@
 				<?php endif; ?>
 			</div>
 			<!-- #container end -->
+		</div>
+		
+		<div class="span2">
+			Advertisment
 		</div>
 	</div>
 </div>

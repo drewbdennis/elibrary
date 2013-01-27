@@ -188,6 +188,7 @@ class Pages extends CI_Controller{
 						'authorModel'=>$this->Author_model,
 						'publisherModel'=>$this->Publisher_model,
 						'bookModel'=>$this->Book_model,
+						'genre'=>'',
 						'rows'=>$query->result_array()
 					);
 					
@@ -257,6 +258,7 @@ class Pages extends CI_Controller{
 						'authorModel'=>$this->Author_model,
 						'publisherModel'=>$this->Publisher_model,
 						'bookModel'=>$this->Book_model,
+						'genre'=>'',
 						'rows'=>$query->result_array()
 					);
 					
@@ -320,6 +322,7 @@ class Pages extends CI_Controller{
 					'reservationModel'=>$this->Reservation_model,
 					'authorModel'=>$this->Author_model,
 					'publisherModel'=>$this->Publisher_model,
+					'genre'=>'',
 					'rows'=>$query->result_array()
 				);
 				
@@ -382,6 +385,7 @@ class Pages extends CI_Controller{
 					'reservationModel'=>$this->Reservation_model,
 					'authorModel'=>$this->Author_model,
 					'publisherModel'=>$this->Publisher_model,
+					'genre'=>'',
 					'genre'=>htmlspecialchars($cat_name)
 				);
 				
@@ -418,6 +422,7 @@ class Pages extends CI_Controller{
 					'reservationModel'=>$this->Reservation_model,
 					'authorModel'=>$this->Author_model,
 					'publisherModel'=>$this->Publisher_model,
+					'genre'=>'',
 					'bk_name'=>htmlspecialchars($title)
 				);
 				
@@ -485,6 +490,7 @@ class Pages extends CI_Controller{
 						'systemModel'=>$this->System_model,
 						'userModel'=>$this->User_model,
 						'display_name'=>$display_name,
+						'genre'=>'',
 						'rows'=>$query->result_array()
 					);
 					
@@ -567,6 +573,7 @@ class Pages extends CI_Controller{
 						'categoryModel'=>$this->Category_model,
 						'authorModel'=>$this->Author_model,
 						'publisherModel'=>$this->Publisher_model,
+						'genre'=>'',
 						'rows'=>$query->result_array()
 					);
 					
@@ -639,6 +646,7 @@ class Pages extends CI_Controller{
 						'categoryModel'=>$this->Category_model,
 						'authorModel'=>$this->Author_model,
 						'publisherModel'=>$this->Publisher_model,
+						'genre'=>'',
 						'rows'=>$query->result_array()
 					);
 					
@@ -667,6 +675,7 @@ class Pages extends CI_Controller{
 					'title'=>ucwords(str_replace('_',' ',$page)),
 					'sitename'=>'ELibrary',
 					'categories'=> $this->Category_model->Get(),
+					'genre'=>'',
 					'display_name'=>$display_name
 				);
 				
@@ -714,6 +723,7 @@ class Pages extends CI_Controller{
 					'title'=>ucwords(str_replace('_',' ',$page)),
 					'sitename'=>'ELibrary',
 					'categories'=> $this->Category_model->Get(),
+					'genre'=>'',
 					'display_name'=>$display_name,
 					'fullname'=>$fullname,
 					'email'=>$email,

@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<div>
 				<h3 style="display:inline-block;"><?php echo $title; ?></h3>
 				<div class="pull-right height35">
@@ -28,6 +28,10 @@
 			<?php else: ?>
 				<p>No data to display...</p>
 			<?php endif; ?>
+		</div>
+		
+		<div class="span2">
+			Advertisment
 		</div>
 	</div>
 </div>

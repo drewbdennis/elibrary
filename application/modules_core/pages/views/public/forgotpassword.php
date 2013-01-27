@@ -23,6 +23,10 @@
 				<button type="submit" class="btn btn-primary">Submit</button>
 			<?php echo form_close(); ?>
 		</div>
+		
+		<div class="span2">
+			Advertisment
+		</div>
 	</div>
 </div>
 

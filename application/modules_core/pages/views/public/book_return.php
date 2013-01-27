@@ -9,6 +9,10 @@
 			<h3>Book Return</h3>
 			Future enchancement...
 		</div>
+		
+		<div class="span2">
+			Advertisment
+		</div>
 	</div>
 </div>
 

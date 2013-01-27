@@ -2,10 +2,10 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<!-- sidebar -->
-		<?php include_once('sidebar2.php'); ?>
+		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<div>
 				<h3 style="display:inline-block;"><?php echo $title; ?></h3> - <small><?php echo $genre; ?></small>
 			</div>
@@ -100,6 +100,10 @@
 				$('.book-tab',this).toggle();
 			});
 		</script>
+		
+		<div class="span2">
+			Advertisment
+		</div>
 	</div>
 </div>
 

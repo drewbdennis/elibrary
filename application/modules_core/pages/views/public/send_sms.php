@@ -57,6 +57,10 @@
 				</strong>
 			<?php echo form_close(); ?>
 		</div>
+		
+		<div class="span2">
+			Advertisment
+		</div>
 	</div>
 </div>
 <script type="text/javascript" src="<?php echo base_url() . 'assets/js/msg_counter.js'; ?>"></script>

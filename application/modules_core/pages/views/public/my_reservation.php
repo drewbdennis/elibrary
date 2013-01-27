@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<h3><?php echo $title; ?></h3>
 			<?php if(!empty($rows)): ?>
 				<ul class="unstyled">
@@ -23,6 +23,10 @@
 			<?php else: ?>
 				<p>No data to display...</p>
 			<?php endif; ?>
+		</div>
+		
+		<div class="span2">
+			Advertisment
 		</div>
 	</div>
 </div>
