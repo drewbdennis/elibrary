@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<h3><?php echo "$fullname"; ?></h3>
 			<!-- new ui -->
 			<div class="row" style="margin-left: 1px;">

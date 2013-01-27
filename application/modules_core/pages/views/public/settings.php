@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<h3>Edit Settings</h3>
 			<!-- form below here -->
 			<?php echo form_open('update_profile'); ?>

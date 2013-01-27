@@ -5,7 +5,7 @@
 		<?php include_once('sidebar.php'); ?>
 		
 		<!-- books -->
-		<div class="span9" style="margin-left: 25%;">
+		<div class="sn offset2">
 			<h3><?php echo $title; ?></h3>
 			<?php
 				if($this->session->flashdata('noti_sms_success')){

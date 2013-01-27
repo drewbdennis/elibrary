@@ -4,7 +4,7 @@
 		<!-- show this section when user is logged in -->
 		<?php if($this->session->userdata('role_id') == 9999) : ?>
 			<!-- admin options -->
-			<ul class="nav nav-list">
+			<ul class="nav nav-tabs nav-stacked">
 				<li class="nav-header">Main Menu</li>
 				<li class="<?php if($title == 'Book Return'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>book_return/">Book Return</a></li>
 				<li class="<?php if($title == 'Manage Users'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>manage_users/">Manage Users</a></li>
