@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/bootstrap-typeahead.min.js'; ?>"></script>
 	<!-- functions -->
 	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/functions.js'; ?>"></script>
+	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/ticker.js'; ?>"></script>
     <script>
     	$(".nano").nanoScroller();
     </script>

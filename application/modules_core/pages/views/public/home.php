@@ -18,6 +18,11 @@
 			</div>
 			<?php endif; ?>
 			
+			<div class="section-divider">
+				Our Collections
+			</div>
+			
+			
 			<?php
 				if($this->session->flashdata('noti_request_success')){
 					#display notification
@@ -114,9 +119,9 @@
 		</div>
 		<!-- book section end -->
 		
-		<div class="span2">
-			Advertisment
-		</div>
+		<!-- Right Column -->
+		<?php include_once('right_column.php'); ?>
+		<!-- Right Column end -->
 		
 		<script>
 			var i = 10;

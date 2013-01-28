@@ -1,5 +1,5 @@
 <!-- sidebar -->
-<div class="span3" style="width:0;">
+<div class="span3 sidebar">
 	<div class="sidebar-nav-fixed">
 		<!-- show this section when user is logged in -->
 		<?php if($this->session->userdata('role_id') == 9999) : ?>
