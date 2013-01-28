@@ -4,8 +4,10 @@
 		<!-- show this section when user is logged in -->
 		<?php if($this->session->userdata('role_id') == 9999) : ?>
 			<!-- admin options -->
+			<div class="div-header-blue">
+				Main Menu
+			</div>
 			<ul class="nav nav-tabs nav-stacked">
-				<li class="nav-header">Main Menu</li>
 				<li class="<?php if($title == 'Book Return'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>book_return/">Book Return</a></li>
 				<li class="<?php if($title == 'Manage Users'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>manage_users/">Manage Users</a></li>
 				<li class="<?php if($title == 'Manage Books'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>manage_books/">Manage Books</a></li>
@@ -14,8 +16,10 @@
 			</ul>
 		<?php elseif($this->session->userdata('role_id') == 1): ?>
 			<!-- student options -->
+			<div class="div-header-blue">
+				Main Menu
+			</div>
 			<ul class="nav nav-tabs nav-stacked">
-				<li class="nav-header">Main Menu</li>
 				<li class="<?php if($title == 'Outstanding Fines'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>fines/">Outstanding Fines</a></li>
 				<li class="<?php if($title == 'My Reservation'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>my_reservation/">My Reservation</a></li>
 				<li class="<?php if($title == 'My History'){ echo 'active';} ?>"><a href="<?php echo base_url(); ?>my_history/">My Library History</a></li>
@@ -23,10 +27,9 @@
 		<?php endif; ?>
 		<?php if($this->session->userdata('role_id') != 9999) : ?>
 		<div style="height:350px;">
-			<ul class="nav nav-tabs nav-stacked">
-				<li class="divider"></li>
-				<li class="nav-header">Categories of books</li>
-			</ul>
+			<div class="div-header-red">
+				Categories of books
+			</div>
 			<div class="nano">
 		        <div class="content">
 		        	<ul class="nav nav-tabs nav-stacked">
