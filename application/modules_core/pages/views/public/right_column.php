@@ -1,7 +1,7 @@
 <!-- Right Column -->
 <div class="span2">
 	<div class="div-header-green">
-		Advertisment
+		News
 	</div>
 	<div>
 		<ul id="ticker" class="ticker">

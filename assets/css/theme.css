@@ -7,6 +7,15 @@ html, body{
 header{
 	padding-bottom:60px;
 }
+#spinner{
+	/*width: 5%;
+    margin: 0 auto;*/
+    position: absolute;
+	top: 10px;
+	left: 50%;
+	margin-top: 10px;
+	margin-left: -12px;
+}
 .sidebar{
 	width:0 !important;
 }

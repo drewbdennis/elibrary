@@ -12,8 +12,8 @@
 			<div class="hero-unit"  style="text-align: center;">
 				<h2>Register to unleash the power of knowledge!</h2>
 				<p>
-					An account allows you to loan, reserve, buy a book, and more. These services are only available to current student, and alumni of 
-					[school name here].
+					An account allows you to loan, reserve, request a book, and more. These services are only available to current student, and alumni of 
+					<?php echo $sitename; ?>.
 				</p>
 			</div>
 			<?php endif; ?>
@@ -49,7 +49,16 @@
 									<a href="#">Full Detail</a>
 								</li>
 								<li class="pull-right">
-									<span class="badge">20+</span>
+									<span class="badge">
+										<?php
+											# check quantity of a given book
+											if($row["quantity"] > 20){
+												echo '20+';
+											}else{
+												echo $row["quantity"];
+											}
+										?>
+									</span>
 								</li>
 							</ul>
 						</div>

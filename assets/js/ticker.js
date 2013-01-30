@@ -8,7 +8,7 @@ function tick(){
 
 // stop ticker on hover
 $('#ticker').hover(function() {
-	$(this).css('cursor','progress');
+	$(this).css('cursor','hand');
 	clearInterval(tickInterval);
 	},function() {
 	$(this).css('cursor','pointer');

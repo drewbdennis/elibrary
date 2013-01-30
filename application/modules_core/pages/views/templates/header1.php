@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ticker.css'; ?>" type="text/css">
 	<link rel="stylesheet" href="<?php echo base_url() . 'assets/css/nanoscroller.css'; ?>" type="text/css">
 	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-1.8.3.min.js'; ?>"></script>
+	<script type="text/javascript" src="<?php echo base_url() . 'assets/js/spin.min.js'; ?>"></script>
   </head>
   <body>
   	<div class="wrapper">
@@ -43,6 +44,7 @@
 					<?php echo form_close(); ?>
                     <!-- end search -->
                     <?php endif; ?>
+                    <i id="spinner"></i>
                     <!-- drop down -->
                     <ul class="nav pull-right">
                     	<li class="<?php if($title == 'Profile'){ echo 'active';} ?>">
