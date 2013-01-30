@@ -231,7 +231,13 @@ footer .credit {
 .height35{
 	height:35px;
 }
-
+label.error { 
+	float: none;
+	color: #b94a48;
+	padding-left: .5em;
+	vertical-align: top;
+	display: inline-block;
+}
 
 
 

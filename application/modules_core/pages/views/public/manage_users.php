@@ -39,25 +39,25 @@
 			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 			    <h3 id="myModalLabel">Add New User</h3>
 			  </div>
-			  <?php echo form_open('add_user/','style="margin:0;"'); ?>
+			  <?php echo form_open('add_user/','id="add_user" style="margin:0;"'); ?>
 				  <div class="modal-body">
 				    <label>First Name</label>
-					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge'),set_value('fname')); ?>
+					<?php echo form_input(array('id' => 'fname', 'name' => 'fname', 'class' => 'input input-xlarge required'),set_value('fname')); ?>
 					
 					<label>Last Name</label>
-					<?php echo form_input(array('id' => 'lname', 'name' => 'lname', 'class' => 'input input-xlarge'),set_value('lname')); ?>
+					<?php echo form_input(array('id' => 'lname', 'name' => 'lname', 'class' => 'input input-xlarge required'),set_value('lname')); ?>
 					
 					<label>Email</label>
-					<?php echo form_input(array('id' => 'usr_email', 'name' => 'usr_email', 'class' => 'input input-xlarge'),set_value('usr_email')); ?>
+					<?php echo form_input(array('id' => 'usr_email', 'name' => 'usr_email', 'class' => 'input input-xlarge required email'),set_value('usr_email')); ?>
 					
 					<label>Username</label>
-					<?php echo form_input(array('id' => 'username', 'name' => 'username', 'class' => 'input input-xlarge'),set_value('username')); ?>
+					<?php echo form_input(array('id' => 'username', 'name' => 'username', 'class' => 'input input-xlarge required'),set_value('username')); ?>
 					
 					<label>Password</label>
-					<?php echo form_password(array('id' => 'new_password1', 'name' => 'new_password1', 'class' => 'input input-xlarge'),set_value('new_password1')); ?>
+					<?php echo form_password(array('id' => 'new_password1', 'name' => 'new_password1', 'class' => 'input input-xlarge required'),set_value('new_password1')); ?>
 					
 					<label>Repeat Password</label>
-					<?php echo form_password(array('id' => 'new_password2', 'name' => 'new_password2', 'class' => 'input input-xlarge')); ?>
+					<?php echo form_password(array('id' => 'new_password2', 'name' => 'new_password2', 'class' => 'input input-xlarge required')); ?>
 					
 					<label>Role</label>
 					<select id="usr_role" name="usr_role" style="width:280px;">
@@ -73,6 +73,11 @@
 				  </div>
 			  <?php echo form_close(); ?>
 			</div>
+			<script>
+				$(document).ready(function(){
+				    $("#add_user").validate();
+				  });
+			</script>
 			<!-- Modal ends -->
 			<?php if(!empty($rows)): ?>
 			<ul class="media-list">
