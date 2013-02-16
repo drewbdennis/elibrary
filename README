@@ -1,5 +1,5 @@
 Name: ELibrary
-Version: 0.0.1
+Version: 1.0.0
 
 Description:
 ELibrary is a web base system, which provides the users access to books, journals, articles, and encyclopedias plus helpful citation tools; it keeps track of the issues and submissions of books, process of maintaining data about the library resources as well as transactions with respect to the issue and return of the books. The reader can search for books, borrow items if they are present in the library and all the details of the user are stored in the database. The user can also request for books, check the due date of the book borrowed, his loan history as well as outstanding fines. 
@@ -18,10 +18,10 @@ For Users
 7. Get help about the Library system on how to use the different features of the system.
 
 For Admin
-1.	Include new books/journals or remove some books from the system
-2.	Add new users to the system
-3.	See the requests for new book and be able to approve or reject them.
-4.	Send an sms to people who are having the book currently, stating a reservation has been made on that book.
+1. Include new books/journals or remove some books from the system
+2. Add new users to the system
+3. See the requests for new book and be able to approve or reject them.
+4. Send an sms to people who are having the book currently, stating a reservation has been made on that book.
 
 
 System Requirements:
