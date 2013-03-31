@@ -128,6 +128,9 @@ class Pages extends CI_Controller{
 			}else if($page == 'login'){
 				# login/logout
 				$this->login();
+			}else if($page == 'del_history'){
+				# login/logout
+				$this->del_history();
 			}else{
 				# Whoops, we don't have a page for that!
 				redirect('home');
@@ -144,7 +147,7 @@ class Pages extends CI_Controller{
 					
 					# configure pagination
 					$config['base_url'] = base_url().'my_history';
-					$config['total_rows'] = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)))->num_rows();
+					$config['total_rows'] = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id),'display_history'=>'Y'))->num_rows();
 					$config['uri_segment'] = 2;
 					$config['per_page'] = 10;
 					$config['num_links'] = 20;
@@ -174,7 +177,7 @@ class Pages extends CI_Controller{
 					
 					$this->pagination->initialize($config);
 					
-					$query = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id)),$config['per_page'], $this->uri->segment(2));
+					$query = $this->db->get_where('history',array('system_id'=>mysql_real_escape_string($system->id),'display_history'=>'Y'),$config['per_page'], $this->uri->segment(2));
 					
 					# array of info to pass to site
 					$data = array(
@@ -1867,6 +1870,55 @@ class Pages extends CI_Controller{
 		
 		#redirect to login page
 		redirect('fines');
+	}
+	
+	# cancel reservation
+	function cancel_reservation()
+	{
+		if($this->session->userdata('logged_in')){
+			# get system id base on user id
+			$system = $this->System_model->Get($this->session->userdata('user_id'));
+			
+			# get ISBN for url
+			$book_id = $this->uri->segment(2);
+			
+			# delete reservation from db
+			$data = array(
+				'ISBN'=> mysql_real_escape_string($book_id),
+				'system_id'=>$system->id
+			);
+			
+			$this->Reservation_model->Delete($data);
+			redirect('my_reservation');
+			
+		}else{
+			// redirect to home
+			redirect('home');
+		}
+	}
+	
+	# delete history
+	function del_history()
+	{
+		if($this->session->userdata('logged_in')){
+			# get system id base on user id
+			$system = $this->System_model->Get($this->session->userdata('user_id'));
+			
+			# get history id for url
+			$history_id = $this->uri->segment(2);
+			
+			# update history db
+			$data = array(
+				'display_history'=>'N'
+			);
+			
+			$this->History_model->Update($history_id,$data);
+			redirect('my_history');
+			
+		}else{
+			// redirect to home
+			redirect('home');
+		}
 	}	
 	
 	# login
